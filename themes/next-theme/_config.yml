@@ -119,7 +119,7 @@ disable_baidu_transformation: false
 canonical: true
 
 # Change headers hierarchy on site-subtitle (will be main site description) and on all post / page titles for better SEO-optimization.
-seo: false
+seo: true
 
 # If true, will add site-subtitle to index page, added in main hexo config.
 # subtitle: Subtitle
@@ -130,7 +130,7 @@ exturl: false
 
 # Google Webmaster tools verification.
 # See: https://www.google.com/webmasters
-#google_site_verification:
+google_site_verification: true
 
 # Bing Webmaster tools verification.
 # See: https://www.bing.com/webmaster
@@ -1179,7 +1179,7 @@ vendors:
   # Example:
   # valine: //cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js
   # valine: //cdnjs.cloudflare.com/ajax/libs/valine/1.3.4/Valine.min.js
-  valine:
+  valine: https://cdn.jsdelivr.net/npm/valine@1.3.9/dist/Valine.min.js
 
   # gitalk & js-md5
   # See: https://github.com/gitalk/gitalk, https://github.com/emn178/js-md5
