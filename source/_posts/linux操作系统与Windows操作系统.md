@@ -11,7 +11,7 @@ toc: true
 
 [toc]
 
-
+# 字符
 
 ## 字符的输出
 
@@ -24,3 +24,13 @@ toc: true
 |    s     |  char   |  char   | wchar_t  |   char   |
 |    S     | wchar_t |  char   |   char   |   char   |
 
+## 宽字符的宏
+
+在Windows下，若VS中的工程选择的是Unicode编码，那么`_T("abc")`和`__T("abc")`就可以直接将"abc"转换成Unicode编码格式。在将该段代码移植至Linux下时，若只是少量改动还好说。如果代码中大量的使用`_T()`那么可以将其整体通过宏定义的方式替换一下。
+
+```cpp
+#define _T(x) L ## x
+#define __T(x) _T(x)
+```
+
+> 具体请参考 [C++中预处理器运算符](https://lianghm.top/2019/11/08/c-%E4%B8%AD%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8%E8%BF%90%E7%AE%97%E7%AC%A6/)
