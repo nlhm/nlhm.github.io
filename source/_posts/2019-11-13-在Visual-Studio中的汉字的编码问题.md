@@ -75,3 +75,17 @@ int main()
 > utf_len = 4, 除去'\n', 即3个wchar_t
 
 可以看出，直接在编辑器中写入汉字的格式是ANSI的。
+
+
+
+PS：在Python下输出"中国"的编码如下：
+
+```py
+>>> '中国'.encode('GB2312')
+b'\xd6\xd0\xb9\xfa'
+>>> '中国'.encode('GBK')
+b'\xd6\xd0\xb9\xfa'
+>>> '中国'.encode('UTF8')
+b'\xe4\xb8\xad\xe5\x9b\xbd'
+```
+
