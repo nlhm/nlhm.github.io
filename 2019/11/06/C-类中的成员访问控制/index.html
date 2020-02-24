@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN,en,default">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-flash.min.css?v=1.0.2">
+
+
+
+
+
+
+
+  <meta name="google-site-verification" content="true">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"always","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: true,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+ <meta name="google-site-verification" content="8Q8_yt0iMuhIe4RJWTOr_xT5y8IzYkQjaudEUA8I7Cw">
+
+
+
+  <meta name="description" content="在C++中关于类内成员的访问控制的一些简单的介绍。">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++类中的成员访问控制">
+<meta property="og:url" content="http://yoursite.com/2019/11/06/C-类中的成员访问控制/index.html">
+<meta property="og:site_name" content="藉藉无名的个人小站">
+<meta property="og:description" content="在C++中关于类内成员的访问控制的一些简单的介绍。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://docs.microsoft.com/en-us/cpp/cpp/media/vc38v91.gif?view=vs-2019">
+<meta property="og:updated_time" content="2019-11-14T10:10:29.406Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++类中的成员访问控制">
+<meta name="twitter:description" content="在C++中关于类内成员的访问控制的一些简单的介绍。">
+<meta name="twitter:image" content="https://docs.microsoft.com/en-us/cpp/cpp/media/vc38v91.gif?view=vs-2019">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="藉藉无名的个人小站" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/11/06/C-类中的成员访问控制/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>C++类中的成员访问控制 | 藉藉无名的个人小站</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">藉藉无名的个人小站</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/06/C-类中的成员访问控制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kyen">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="藉藉无名的个人小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">C++类中的成员访问控制
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-06 15:54:38" itemprop="dateCreated datePublished" datetime="2019-11-06T15:54:38+08:00">2019-11-06</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-11-14 18:10:29" itemprop="dateModified" datetime="2019-11-14T18:10:29+08:00">2019-11-14</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/11/06/C-类中的成员访问控制/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/06/C-类中的成员访问控制/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在C++中关于类内成员的访问控制的一些简单的介绍。</p>
+<a id="more"></a>
+<p>[toc]</p>
+<h1 id="C-类中的成员访问控制"><a href="#C-类中的成员访问控制" class="headerlink" title="C++类中的成员访问控制"></a>C++类中的成员访问控制</h1><h2 id="Access-Control-in-Derived-Classes"><a href="#Access-Control-in-Derived-Classes" class="headerlink" title="Access Control in Derived Classes"></a>Access Control in Derived Classes</h2><p>Two factors control which members of a base class are accessible in a derived class; these same factors control access to the inherited members in the derived class:</p>
+<ul>
+<li>Whether the derived class declares the base class using the <strong>public</strong> access specifier.</li>
+<li>What the access to the member is in the base class.</li>
+</ul>
+<p>The following table shows the interaction between these factors and how to determine base-class member access.</p>
+<h3 id="Member-Access-in-Base-Class"><a href="#Member-Access-in-Base-Class" class="headerlink" title="Member Access in Base Class"></a>Member Access in Base Class</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">private</th>
+<th style="text-align:left">protected</th>
+<th style="text-align:left">Public</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Always inaccessible regardless of derivation access</td>
+<td style="text-align:left">Private in derived class if you use private derivation</td>
+<td style="text-align:left">Private in derived class if you use private derivation</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Protected in derived class if you use protected derivation</td>
+<td style="text-align:left">Protected in derived class if you use protected derivation</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left">Protected in derived class if you use public derivation</td>
+<td style="text-align:left">Public in derived class if you use public derivation</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Access-control-and-static-members"><a href="#Access-control-and-static-members" class="headerlink" title="Access control and static members"></a>Access control and static members</h2><p>When you specify a base class as <strong>private</strong>, it affects only nonstatic members. Public static members are still accessible in the derived classes. However, accessing members of the base class using pointers, references, or objects can require a conversion, at which time access control is again applied. Consider the following example:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// access_control.cpp</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">Print</span><span class="params">()</span></span>;             <span class="comment">// Nonstatic member.</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">CountOf</span><span class="params">()</span></span>;    <span class="comment">// Static member.</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Derived1 declares Base as a private base class.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived1</span> :</span> <span class="keyword">private</span> Base</span><br><span class="line">&#123;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// Derived2 declares Derived1 as a public base class.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived2</span> :</span> <span class="keyword">public</span> Derived1</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">ShowCount</span><span class="params">()</span></span>;    <span class="comment">// Nonstatic member.</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// Define ShowCount function for Derived2.</span></span><br><span class="line"><span class="keyword">int</span> Derived2::ShowCount()</span><br><span class="line">&#123;</span><br><span class="line">   <span class="comment">// Call static member function CountOf explicitly.</span></span><br><span class="line">    <span class="keyword">int</span> cCount = Base::CountOf();     <span class="comment">// OK. //PS：自己测试的时候发现此处报错。</span></span><br><span class="line">    <span class="comment">// kyen : error C2247: 'Base::CountOf' not accessible because 'Derived1' uses 'private' to inherit from 'Base'</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">// Call static member function CountOf using pointer.</span></span><br><span class="line">    cCount = <span class="keyword">this</span>-&gt;CountOf();  <span class="comment">// C2247. Conversion of</span></span><br><span class="line">                               <span class="comment">//  Derived2 * to Base * not</span></span><br><span class="line">                               <span class="comment">//  permitted.</span></span><br><span class="line">    <span class="comment">// kyen : error C2247: 'Base::CountOf' not accessible because 'Derived1' uses 'private' to inherit from 'Base'</span></span><br><span class="line">    <span class="keyword">return</span> cCount;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In the preceding code, access control prohibits conversion from a pointer to <code>Derived2</code> to a pointer to <code>Base</code>. The <strong>this</strong> pointer is implicitly of type <code>Derived2 *</code>. To select the <code>CountOf</code> function, <strong>this</strong> must be converted to type <code>Base *</code>. Such a conversion is not permitted because <code>Base</code> is a private indirect base class to <code>Derived2</code>. Conversion to a private base class type is acceptable only for pointers to immediate derived classes. Therefore, pointers of type <code>Derived1 *</code> can be converted to type <code>Base *</code>.</p>
+<p>Note that calling the <code>CountOf</code> function explicitly, without using a pointer, reference, or object to select it, implies no conversion. Therefore, the call is allowed.</p>
+<p>Members and friends of a derived class, <code>T</code>, can convert a pointer to <code>T</code> to a pointer to a private direct base class of <code>T</code>.</p>
+<h2 id="Access-to-virtual-functions"><a href="#Access-to-virtual-functions" class="headerlink" title="Access to virtual functions"></a>Access to virtual functions</h2><p>The access control applied to <a href="https://docs.microsoft.com/en-us/cpp/cpp/virtual-cpp?view=vs-2019" target="_blank" rel="noopener">virtual</a> functions is determined by the type used to make the function call. Overriding declarations of the function do not affect the access control for a given type. For example:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// access_to_virtual_functions.cpp</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">VFuncBase</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">int</span> <span class="title">GetState</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> _state; &#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="keyword">int</span> _state;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">VFuncDerived</span> :</span> <span class="keyword">public</span> VFuncBase</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">GetState</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> _state; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   VFuncDerived vfd;             <span class="comment">// Object of derived type.</span></span><br><span class="line">   VFuncBase *pvfb = &amp;vfd;       <span class="comment">// Pointer to base type.</span></span><br><span class="line">   VFuncDerived *pvfd = &amp;vfd;    <span class="comment">// Pointer to derived type.</span></span><br><span class="line">   <span class="keyword">int</span> State;</span><br><span class="line"></span><br><span class="line">   State = pvfb-&gt;GetState();     <span class="comment">// GetState is public.</span></span><br><span class="line">   State = pvfd-&gt;GetState();     <span class="comment">// C2248 error expected; GetState is private;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In the preceding example, calling the virtual function <code>GetState</code> using a pointer to type <code>VFuncBase</code> calls <code>VFuncDerived::GetState</code>, and <code>GetState</code> is treated as public. However, calling <code>GetState</code> using a pointer to type <code>VFuncDerived</code> is an access-control violation because <code>GetState</code> is declared private in class <code>VFuncDerived</code>.</p>
+<p><strong>Caution</strong></p>
+<p>The virtual function <code>GetState</code> can be called using a pointer to the base class <code>VFuncBase</code>. This does not mean that the function called is the base-class version of that function.</p>
+<h2 id="Access-control-with-multiple-inheritance"><a href="#Access-control-with-multiple-inheritance" class="headerlink" title="Access control with multiple inheritance"></a>Access control with multiple inheritance</h2><p>In multiple-inheritance lattices involving virtual base classes, a given name can be reached through more than one path. Because different access control can be applied along these different paths, the compiler chooses the path that gives the most access. See the following figure.</p>
+<p><img src="https://docs.microsoft.com/en-us/cpp/cpp/media/vc38v91.gif?view=vs-2019" alt="Access along paths of an inheritance graph"></p>
+<p>Access along paths of an inheritance graph</p>
+<p>In the figure, a name declared in class <code>VBase</code> is always reached through class <code>RightPath</code>. The right path is more accessible because <code>RightPath</code> declares <code>VBase</code> as a public base class, whereas <code>LeftPath</code> declares <code>VBase</code> as private.</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C++</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/17/UTF-8-and-Unicode-FAQ-for-Unix-Linux/" rel="next" title="(转载)UTF-8 and Unicode FAQ for Unix/Linux">
+                <i class="fa fa-chevron-left"></i> (转载)UTF-8 and Unicode FAQ for Unix/Linux
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/08/c-中预处理器运算符/" rel="prev" title="C++中预处理器运算符">
+                C++中预处理器运算符 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Kyen">
+            
+              <p class="site-author-name" itemprop="name">Kyen</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C-类中的成员访问控制"><span class="nav-number">1.</span> <span class="nav-text">C++类中的成员访问控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Access-Control-in-Derived-Classes"><span class="nav-number">1.1.</span> <span class="nav-text">Access Control in Derived Classes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Member-Access-in-Base-Class"><span class="nav-number">1.1.1.</span> <span class="nav-text">Member Access in Base Class</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Access-control-and-static-members"><span class="nav-number">1.2.</span> <span class="nav-text">Access control and static members</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Access-to-virtual-functions"><span class="nav-number">1.3.</span> <span class="nav-text">Access to virtual functions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Access-control-with-multiple-inheritance"><span class="nav-number">1.4.</span> <span class="nav-text">Access control with multiple inheritance</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备18062069号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kyen</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.9/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: true,
+    appId: '8tLH7JizsOKpK6wiw6eglcYT-gzGzoHsz',
+    appKey: '6EhmgPeeinlDw3xqy4FXdrTD',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

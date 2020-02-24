@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN,en,default">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-flash.min.css?v=1.0.2">
+
+
+
+
+
+
+
+  <meta name="google-site-verification" content="true">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"always","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: true,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+ <meta name="google-site-verification" content="8Q8_yt0iMuhIe4RJWTOr_xT5y8IzYkQjaudEUA8I7Cw">
+
+
+
+  <meta name="description" content="翻译自https://www.fluentcpp.com/2017/12/19/build-strings-from-plain-string-up-to-boost-karma/  对于一个程序员来说，无论使用哪种语言，创建一个字符串听起来都是一件很基本的事情。但是事实上在C++中，根据你想要实现的复杂度，有很多种不同的方法去创建一个字符串。下面就让我们看看一系列的实现方法，从最基本的标准库中">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++中构建字符串的完全指南">
+<meta property="og:url" content="http://yoursite.com/2019/04/17/C-中构建字符串的完全指南/index.html">
+<meta property="og:site_name" content="藉藉无名的个人小站">
+<meta property="og:description" content="翻译自https://www.fluentcpp.com/2017/12/19/build-strings-from-plain-string-up-to-boost-karma/  对于一个程序员来说，无论使用哪种语言，创建一个字符串听起来都是一件很基本的事情。但是事实上在C++中，根据你想要实现的复杂度，有很多种不同的方法去创建一个字符串。下面就让我们看看一系列的实现方法，从最基本的标准库中">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/image/TBD.jpeg">
+<meta property="og:updated_time" content="2019-11-14T10:10:29.413Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++中构建字符串的完全指南">
+<meta name="twitter:description" content="翻译自https://www.fluentcpp.com/2017/12/19/build-strings-from-plain-string-up-to-boost-karma/  对于一个程序员来说，无论使用哪种语言，创建一个字符串听起来都是一件很基本的事情。但是事实上在C++中，根据你想要实现的复杂度，有很多种不同的方法去创建一个字符串。下面就让我们看看一系列的实现方法，从最基本的标准库中">
+<meta name="twitter:image" content="http://yoursite.com/image/TBD.jpeg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="藉藉无名的个人小站" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/04/17/C-中构建字符串的完全指南/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>C++中构建字符串的完全指南 | 藉藉无名的个人小站</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">藉藉无名的个人小站</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/17/C-中构建字符串的完全指南/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kyen">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="藉藉无名的个人小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">C++中构建字符串的完全指南
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-17 12:50:25" itemprop="dateCreated datePublished" datetime="2019-04-17T12:50:25+08:00">2019-04-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-11-14 18:10:29" itemprop="dateModified" datetime="2019-11-14T18:10:29+08:00">2019-11-14</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/04/17/C-中构建字符串的完全指南/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/17/C-中构建字符串的完全指南/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>翻译自<a href="https://www.fluentcpp.com/2017/12/19/build-strings-from-plain-string-up-to-boost-karma/" target="_blank" rel="noopener">https://www.fluentcpp.com/2017/12/19/build-strings-from-plain-string-up-to-boost-karma/</a></p>
+</blockquote>
+<p>对于一个程序员来说，无论使用哪种语言，创建一个字符串听起来都是一件很基本的事情。但是事实上在C++中，根据你想要实现的复杂度，有很多种不同的方法去创建一个字符串。下面就让我们看看一系列的实现方法，从最基本的标准库中的std::string到boost karma，在简洁的代码中领略复杂的字符串创建。</p>
+<p>鉴于文章较长，下面是简要目录：</p>
+<ul>
+<li>通过string来构建一个… 一个string</li>
+<li>通过两个string来构建一个string</li>
+<li>通过N个string来构建一个string</li>
+<li>通过一个文件来构建一个string</li>
+<li>扔掉除了string的所有东西</li>
+<li>Boost Format：从内容中按照格式分离</li>
+<li>Boost Karma，there we are</li>
+</ul>
+<h2 id="通过string来构建一个…-一个string"><a href="#通过string来构建一个…-一个string" class="headerlink" title="通过string来构建一个… 一个string"></a>通过string来构建一个… 一个string</h2><p>最基本的方法来构建一个字符串，相信你肯定会知道：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> greeting = <span class="string">"Hello, world"</span>;</span><br></pre></td></tr></table></figure></p>
+<h3 id="结构化字符串"><a href="#结构化字符串" class="headerlink" title="结构化字符串"></a>结构化字符串</h3><p>这一个方法知道的人就不多了—一个长字符串可以分割成若干行，而且只需要引号就行了，不需要别的特殊语法。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> longGreetings = <span class="string">"Hello, world. How are you doing? I suppose that by now "</span></span><br><span class="line">                                <span class="string">"you must have your inbox chock-full of greetings like "</span></span><br><span class="line">                                <span class="string">"this one, in like hundreds of programming languages and "</span></span><br><span class="line">                                <span class="string">"sent over by thousands or millions of software developers "</span></span><br><span class="line">                                <span class="string">"taking up the challenge of learning a new language. "</span></span><br><span class="line">                                <span class="string">"World, you must be the most popular mentor for beginners "</span></span><br><span class="line">                                <span class="string">"but you'll find this message a little bit different: in "</span></span><br><span class="line">                                <span class="string">"it you'll hear about Boost Karma, which I hope you'll "</span></span><br><span class="line">                                <span class="string">"find both unusual and interesting. Keep it up, world."</span>;</span><br></pre></td></tr></table></figure></p>
+<p>是不是很方便？</p>
+<p>这个方法在写SQL数据库请求中还是很方便的，因为在有些时候这样的方式会让你的代码的可读性更好。哦，对了。不要忘记在每一行的结尾加上空格符，不然行末的单词就和下一行行首的单词拼在一起了。</p>
+<p>这个技巧能你字符串构建的代码整齐有序而不是之前在笔直的一句代码中完成。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> s = <span class="string">"(field1=value1) or ((field6=value2 or field2=value3 or field3=value4) and (field1=value2))"</span>;</span><br></pre></td></tr></table></figure></p>
+<p>可以写成这样的形式：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> s = <span class="string">"("</span></span><br><span class="line">                    <span class="string">"field1=value1"</span></span><br><span class="line">                <span class="string">")"</span></span><br><span class="line">                <span class="string">" or "</span></span><br><span class="line">                <span class="string">"("</span></span><br><span class="line">                    <span class="string">"("</span></span><br><span class="line">                        <span class="string">"field6=value2"</span></span><br><span class="line">                        <span class="string">" or "</span></span><br><span class="line">                        <span class="string">"field2=value3"</span></span><br><span class="line">                        <span class="string">" or "</span></span><br><span class="line">                        <span class="string">"field3=value4"</span></span><br><span class="line">                    <span class="string">")"</span></span><br><span class="line">                    <span class="string">" and "</span></span><br><span class="line">                    <span class="string">"("</span></span><br><span class="line">                        <span class="string">"field1=value2"</span></span><br><span class="line">                    <span class="string">")"</span></span><br><span class="line">                <span class="string">")"</span>;</span><br></pre></td></tr></table></figure></p>
+<h3 id="原生字符串"><a href="#原生字符串" class="headerlink" title="原生字符串"></a>原生字符串</h3><p>在代码中，字符串的结束符是一个引号”。但是想在字符串中包含一个引号，此时就需要转义符号了。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> stringInQuote = <span class="string">"This is a \"string\""</span>;</span><br><span class="line"><span class="comment">// output</span></span><br><span class="line"><span class="comment">// This is a "string"</span></span><br></pre></td></tr></table></figure></p>
+<p>在C++11中，有个标识符raw string能让你把任意字符直接添加到字符串中。一个字符R表明该字符串是raw string，这个字符串的内容也要被包围起来，包围方法见下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> stringInQuote = <span class="string">R"(This is a "string")"</span>;</span><br><span class="line"><span class="comment">//这个字符和上方的完全一样</span></span><br></pre></td></tr></table></figure></p>
+<p>每一个包含在raw string的字符都会被构建到字符串中去，包括IDE中的换行符和空格。若代码如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> stringInQuote = R<span class="string">"(This is a "</span><span class="built_in">string</span><span class="string">"</span></span><br><span class="line"><span class="string">                               and a second line)"</span>;</span><br></pre></td></tr></table></figure></p>
+<p>其输出为：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">This is a <span class="string">"string"</span></span><br><span class="line">                               <span class="keyword">and</span> a second line</span><br></pre></td></tr></table></figure></p>
+<p>所以在使用raw string时一定要特别注意。如果你想要若干行的字符组成一个raw string，那么一定把每一行字符的缩进给去掉：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> stringInQuote = R<span class="string">"(This is a "</span><span class="built_in">string</span><span class="string">"</span></span><br><span class="line"><span class="string">and a second line</span></span><br><span class="line"><span class="string">and a third)"</span>;</span><br></pre></td></tr></table></figure></p>
+<h3 id="std-string的构造函数"><a href="#std-string的构造函数" class="headerlink" title="std::string的构造函数"></a>std::string的构造函数</h3><p>本节最后一件事说的是std::string的构造函数。你可以用构造函数构建一个包含n个重复字符的字符串：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="function"><span class="built_in">string</span> <span class="title">s</span><span class="params">(<span class="number">10</span>, <span class="string">'a'</span>)</span></span>; <span class="comment">// read: 10 times 'a'</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; s &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line"><span class="comment">//outputs:</span></span><br><span class="line"><span class="comment">//aaaaaaaaaa</span></span><br></pre></td></tr></table></figure>
+<h2 id="通过两个string来构建一个string"><a href="#通过两个string来构建一个string" class="headerlink" title="通过两个string来构建一个string"></a>通过两个string来构建一个string</h2><p>在C++中最简单的拼接字符串的方法是使用+或者是+=运算符<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> s1 = <span class="string">"Hello, "</span>;</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> s2 = <span class="string">"world."</span>;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> s3 = s1 + s2;</span><br><span class="line">s1 += s2;</span><br></pre></td></tr></table></figure></p>
+<p>这两个运算符能接受几种不同的对象，包括指向字符串的const char*，甚至是单独的一个字符。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> s1 = <span class="string">"Hello, "</span>;</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> s2 = s1 + <span class="string">"world."</span>;</span><br><span class="line"><span class="comment">//or even individual characters：</span></span><br><span class="line">s2 += <span class="string">'!'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>现在你可能会好奇这两个运算符的运算性能，想知道使用operator+ 或者 operator+=真的是个好选择吗？我在Google Benchmark上做了一个对比测试，通过构建单个string来检测下面两段代码的性能区别：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//code 1</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> s4;</span><br><span class="line">s4 = s1 + s2 + s3;</span><br><span class="line"></span><br><span class="line"><span class="comment">//code 2</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> s4;</span><br><span class="line">s4 += s1;</span><br><span class="line">s4 += s2;</span><br><span class="line">s4 += s3;</span><br></pre></td></tr></table></figure></p>
+<p>从结果来看，对于长字符串来说，这两者之间并没有显著的区别，operator+=在短字符串的操作上要更快一些。我怀疑其中<a href="https://www.fluentcpp.com/2016/11/28/return-value-optimizations/" target="_blank" rel="noopener">返回值优化</a>起到了一定的作用。该优化在不同的编译器下表现并不一样，所以你要是想要确定他们在你平台上真正的表现，最好还是自己做一下测试。</p>
+<h2 id="通过N个string来构建一个string"><a href="#通过N个string来构建一个string" class="headerlink" title="通过N个string来构建一个string"></a>通过N个string来构建一个string</h2><p>试想以下情景：你有一大堆的字符串，并且你想把它们组合成一个大字符串，在C++中你会怎么做呢？</p>
+<p>一种能在一行代码中解决该问题的方法是使用 <code>std::accumulate</code>:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> result = <span class="built_in">std</span>::accumulate(begin(words), end(words), <span class="built_in">std</span>::<span class="built_in">string</span>())</span><br></pre></td></tr></table></figure></p>
+<p>事实上，<code>std::accumulate</code>接收一个集合和一个初始值，不断的对集合中的元素和初始值调用+运算符，每次都用他们相加的结果来更细初始值。</p>
+<p>注意⚠️，在这里初始值被设为<code>std::string()</code>而不是简单的“”，因为<code>std::accumulate</code>是把传进来的值作为一个模版参数。对于“”来说，在类型萃取的时候没有隐式转换，算法会认为其类型是<code>const char*</code>，这个类型和+运算符的返回值<code>std::string</code>是冲突的，这样accumulator就不能赋值了。</p>
+<p>尽管这种方法十分的方便，但是速度却不是很快。在执行过程中，有很多临时的字符串被创建和销毁。因此，你可以尝试以下代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> result;</span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">std</span>::<span class="built_in">string</span> <span class="keyword">const</span>&amp; word : words)</span><br><span class="line">&#123;</span><br><span class="line">    result += word;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>利用Google benchmark进行的测试，第二种方法比第一种方法快了大概4.5倍。</p>
+<h2 id="通过一个文件来构建一个string"><a href="#通过一个文件来构建一个string" class="headerlink" title="通过一个文件来构建一个string"></a>通过一个文件来构建一个string</h2><p>把一个文件中的内容读取出来并传到一个字符串中可以通过以下方式实现：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">ostringstream</span> fileContentStream;</span><br><span class="line">fileContenStream &lt;&lt; <span class="built_in">std</span>::ifstream(<span class="string">"MyFile.txt"</span>).rdbuf();</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> fileContents = fileContentStream.str();</span><br></pre></td></tr></table></figure></p>
+<p><img src="/image/TBD.jpeg"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C++</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/26/发一发牢骚QAQ/" rel="prev" title="发一发牢骚QAQ">
+                发一发牢骚QAQ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Kyen">
+            
+              <p class="site-author-name" itemprop="name">Kyen</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#通过string来构建一个…-一个string"><span class="nav-number">1.</span> <span class="nav-text">通过string来构建一个… 一个string</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#结构化字符串"><span class="nav-number">1.1.</span> <span class="nav-text">结构化字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原生字符串"><span class="nav-number">1.2.</span> <span class="nav-text">原生字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#std-string的构造函数"><span class="nav-number">1.3.</span> <span class="nav-text">std::string的构造函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过两个string来构建一个string"><span class="nav-number">2.</span> <span class="nav-text">通过两个string来构建一个string</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过N个string来构建一个string"><span class="nav-number">3.</span> <span class="nav-text">通过N个string来构建一个string</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过一个文件来构建一个string"><span class="nav-number">4.</span> <span class="nav-text">通过一个文件来构建一个string</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备18062069号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kyen</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.9/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: true,
+    appId: '8tLH7JizsOKpK6wiw6eglcYT-gzGzoHsz',
+    appKey: '6EhmgPeeinlDw3xqy4FXdrTD',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
