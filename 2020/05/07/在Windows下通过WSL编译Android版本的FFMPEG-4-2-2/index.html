@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN,en,default">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-flash.min.css?v=1.0.2">
+
+
+
+
+
+
+
+  <meta name="google-site-verification" content="true">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"always","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: true,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+ <meta name="google-site-verification" content="8Q8_yt0iMuhIe4RJWTOr_xT5y8IzYkQjaudEUA8I7Cw">
+
+
+
+  <meta name="description" content="本文讲述了在Windows下通过WSL编译Android版本使用的FFMPEG库文件。">
+<meta name="keywords" content="FFMPEG">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Windows下通过WSL编译Android版本的FFMPEG 4.2.2">
+<meta property="og:url" content="http://yoursite.com/2020/05/07/在Windows下通过WSL编译Android版本的FFMPEG-4-2-2/index.html">
+<meta property="og:site_name" content="藉藉无名的个人小站">
+<meta property="og:description" content="本文讲述了在Windows下通过WSL编译Android版本使用的FFMPEG库文件。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-05-07T01:32:22.710Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在Windows下通过WSL编译Android版本的FFMPEG 4.2.2">
+<meta name="twitter:description" content="本文讲述了在Windows下通过WSL编译Android版本使用的FFMPEG库文件。">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="藉藉无名的个人小站" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2020/05/07/在Windows下通过WSL编译Android版本的FFMPEG-4-2-2/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>在Windows下通过WSL编译Android版本的FFMPEG 4.2.2 | 藉藉无名的个人小站</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">藉藉无名的个人小站</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/07/在Windows下通过WSL编译Android版本的FFMPEG-4-2-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kyen">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="藉藉无名的个人小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">在Windows下通过WSL编译Android版本的FFMPEG 4.2.2
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-05-07 09:24:58 / 修改时间：09:32:22" itemprop="dateCreated datePublished" datetime="2020-05-07T09:24:58+08:00">2020-05-07</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2020/05/07/在Windows下通过WSL编译Android版本的FFMPEG-4-2-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/05/07/在Windows下通过WSL编译Android版本的FFMPEG-4-2-2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文讲述了在Windows下通过WSL编译Android版本使用的FFMPEG库文件。</p>
+<a id="more"></a>
+<p>[toc]</p>
+<p>写在前面：本文是在编译成功之后边回忆边写的，可能有细节上的偏差。</p>
+<h2 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h2><p>WSL ：Ubuntu，已安装NASM。</p>
+<blockquote>
+<p> NASM在Ubuntu下安装方式:<code>sudo apt-get install nasm</code></p>
+</blockquote>
+<p>NDK : android-ndk-r12b-linux-x86_64</p>
+<blockquote>
+<p>最新版的NDK（21）移除了GCC编译并采用了clang，但是FFMPEG中的Configure文件依然采用gcc，所以为了方便使用的是老版本的NDK。NDK不同版本的改动可以参考官网的<a href="https://developer.android.google.cn/ndk/downloads/revision_history?hl=zh-cn" target="_blank" rel="noopener">NDK 修订历史记录</a></p>
+</blockquote>
+<p>源码：<a href="http://www.videolan.org/developers/x264.html" target="_blank" rel="noopener">x264</a>和<a href="https://ffmpeg.org/download.html#get-sources" target="_blank" rel="noopener">FFMPEG</a></p>
+<p>编译脚本：<a href="https://github.com/RoyGuanyu/build-scripts-of-ffmpeg-x264-for-android-ndk" target="_blank" rel="noopener">链接</a></p>
+<h2 id="编译x264"><a href="#编译x264" class="headerlink" title="编译x264"></a>编译x264</h2><p>首先配置脚本文件，以<code>build_android_arm64-v8a.sh</code>为例。</p>
+<ul>
+<li><p>NDK：android-ndk-r12b-linux-x86_64的存放位置。注意在WSL下加载Windows盘符的格式。</p>
+</li>
+<li><p>–preffix：编译完成之后生成的库文件的存放位置。</p>
+</li>
+<li>–host：编译生成的库将要运行的平台。</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">NDK=/mnt/d/DevelopTools/android-ndk-r12b-linux-x86_64/android-ndk-r12b</span><br><span class="line">PLATFORM=<span class="variable">$NDK</span>/platforms/android-21/arch-arm64/</span><br><span class="line">TOOLCHAIN=<span class="variable">$NDK</span>/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64</span><br><span class="line">PREFIX=./android/arm64</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> build_one</span><br><span class="line">&#123;</span><br><span class="line">  ./configure \</span><br><span class="line">  --prefix=<span class="variable">$PREFIX</span> \</span><br><span class="line">  --<span class="built_in">enable</span>-static \</span><br><span class="line">  --<span class="built_in">enable</span>-pic \</span><br><span class="line">  --host=aarch64-linux \</span><br><span class="line">  --cross-prefix=<span class="variable">$TOOLCHAIN</span>/bin/aarch64-linux-android- \</span><br><span class="line">  --sysroot=<span class="variable">$PLATFORM</span></span><br><span class="line"></span><br><span class="line">  make clean</span><br><span class="line">  make</span><br><span class="line">  make install</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">build_one</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> Android ARM64 builds finished</span><br></pre></td></tr></table></figure>
+<p>接下来在该目录下通过WSL运行脚本就可以了。</p>
+<h2 id="编译FFMPEG"><a href="#编译FFMPEG" class="headerlink" title="编译FFMPEG"></a>编译FFMPEG</h2><p>首先按照上述方式配置FFMPEG的脚本文件。记得按照脚本文件中的位置存放X264的库文件或者自己修改脚本中的路径。</p>
+<p>之后要修改FFMPEG自带的configure文件。因为默认编译出的so库是带有版本号的，在安卓工程中是使用不了的。</p>
+<p>在Configure文件中找到如下代码：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SLIBNAME_WITH_MAJOR='$(SLIBNAME).$(LIBMAJOR)'</span><br><span class="line">LIB_INSTALL_EXTRA_CMD='$$(RANLIB) "$(LIBDIR)/$(LIBNAME)"'</span><br><span class="line">SLIB_INSTALL_NAME='$(SLIBNAME_WITH_VERSION)'</span><br><span class="line">SLIB_INSTALL_LINKS='$(SLIBNAME_WITH_MAJOR) $(SLIBNAME)'</span><br></pre></td></tr></table></figure>
+<p>然后将其修改为：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SLIBNAME_WITH_MAJOR='$(SLIBPREF)$(FULLNAME)-$(LIBMAJOR)$(SLIBSUF)'</span><br><span class="line">LIB_INSTALL_EXTRA_CMD='$$(RANLIB)"$(LIBDIR)/$(LIBNAME)"'</span><br><span class="line">SLIB_INSTALL_NAME='$(SLIBNAME_WITH_MAJOR)'</span><br><span class="line">SLIB_INSTALL_LINKS='$(SLIBNAME)'</span><br></pre></td></tr></table></figure>
+<p>然后执行脚本。</p>
+<h2 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h2><h3 id="错误一-request-for-member-‘s-addr’-in-something-not-a-structure-or-union"><a href="#错误一-request-for-member-‘s-addr’-in-something-not-a-structure-or-union" class="headerlink" title="错误一 request for member ‘s_addr’ in something not a structure or union"></a>错误一 request for member ‘s_addr’ in something not a structure or union</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">libavformat/udp.c: In function 'udp_set_multicast_sources':</span><br><span class="line">libavformat/udp.c:290:28: error: request for member 's_addr' in something not a structure or union</span><br><span class="line">         mreqs.imr_multiaddr.s_addr = ((struct sockaddr_in *)addr)-&gt;sin_addr.s_addr;</span><br><span class="line">                            ^</span><br><span class="line">libavformat/udp.c:292:32: error: incompatible types when assigning to type '__be32' from type 'struct in_addr'</span><br><span class="line">             mreqs.imr_interface= ((struct sockaddr_in *)local_addr)-&gt;sin_addr;</span><br><span class="line">                                ^</span><br><span class="line">libavformat/udp.c:294:32: error: request for member 's_addr' in something not a structure or union</span><br><span class="line">             mreqs.imr_interface.s_addr= INADDR_ANY;</span><br><span class="line">                                ^</span><br><span class="line">libavformat/udp.c:295:29: error: request for member 's_addr' in something not a structure or union</span><br><span class="line">         mreqs.imr_sourceaddr.s_addr = ((struct sockaddr_in *)&amp;sources[i])-&gt;sin_addr.s_addr;</span><br><span class="line">                             ^</span><br><span class="line">ffbuild/common.mak:59: recipe for target 'libavformat/udp.o' failed</span><br><span class="line">make: *** [libavformat/udp.o] Error <span class="number">1</span></span><br><span class="line">CC      libavformat/udp.o</span><br><span class="line">libavformat/udp.c: In function 'udp_set_multicast_sources':</span><br><span class="line">libavformat/udp.c:290:28: error: request for member 's_addr' in something not a structure or union</span><br><span class="line">         mreqs.imr_multiaddr.s_addr = ((struct sockaddr_in *)addr)-&gt;sin_addr.s_addr;</span><br><span class="line">                            ^</span><br><span class="line">libavformat/udp.c:292:32: error: incompatible types when assigning to type '__be32' from type 'struct in_addr'</span><br><span class="line">             mreqs.imr_interface= ((struct sockaddr_in *)local_addr)-&gt;sin_addr;</span><br><span class="line">                                ^</span><br><span class="line">libavformat/udp.c:294:32: error: request for member 's_addr' in something not a structure or union</span><br><span class="line">             mreqs.imr_interface.s_addr= INADDR_ANY;</span><br><span class="line">                                ^</span><br><span class="line">libavformat/udp.c:295:29: error: request for member 's_addr' in something not a structure or union</span><br><span class="line">         mreqs.imr_sourceaddr.s_addr = ((struct sockaddr_in *)&amp;sources[i])-&gt;sin_addr.s_addr;</span><br><span class="line">                             ^</span><br><span class="line">ffbuild/common.mak:59: recipe for target 'libavformat/udp.o' failed</span><br><span class="line">make: *** [libavformat/udp.o] Error <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>出现上述错误的原因是：在此版本的NDK中，<code>ip_mreq_source</code>的定义如下。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ip_mreq_source</span> &#123;</span></span><br><span class="line"><span class="comment">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span></span><br><span class="line"> __be32 imr_multiaddr;</span><br><span class="line"> __be32 imr_interface;</span><br><span class="line"> __be32 imr_sourceaddr;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>为了解决此问题，在报错中提到的函数<code>udp_set_multicast_sources</code>前面加上自定义的结构体，并替换出错的结构体。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">my_ip_mreq_source</span> &#123;</span></span><br><span class="line">               <span class="class"><span class="keyword">struct</span> <span class="title">in_addr</span> <span class="title">imr_multiaddr</span>;</span>  <span class="comment">/* IP multicast group address */</span></span><br><span class="line">               <span class="class"><span class="keyword">struct</span> <span class="title">in_addr</span> <span class="title">imr_interface</span>;</span>  <span class="comment">/* IP address of local interface */</span></span><br><span class="line">               <span class="class"><span class="keyword">struct</span> <span class="title">in_addr</span> <span class="title">imr_sourceaddr</span>;</span> <span class="comment">/* IP address of multicast source */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> HAVE_STRUCT_IP_MREQ_SOURCE &amp;&amp; defined(IP_BLOCK_SOURCE)</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; nb_sources; i++) &#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">ip_mreq_source</span> <span class="title">mreqs</span>;</span></span><br><span class="line">-----&gt;   -----&gt;    -----&gt;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> HAVE_STRUCT_IP_MREQ_SOURCE &amp;&amp; defined(IP_BLOCK_SOURCE)</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; nb_sources; i++) &#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">my_ip_mreq_source</span> <span class="title">mreqs</span>;</span></span><br></pre></td></tr></table></figure>
+<h3 id="错误二-error-expected-identifier-or-‘-‘-before-numeric-constant-int-B0-0-B1-0"><a href="#错误二-error-expected-identifier-or-‘-‘-before-numeric-constant-int-B0-0-B1-0" class="headerlink" title="错误二 error: expected identifier or ‘(‘ before numeric constant int B0 = 0, B1 = 0;"></a>错误二 error: expected identifier or ‘(‘ before numeric constant int B0 = 0, B1 = 0;</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">libavcodec/aaccoder.c: In function 'search_for_ms':</span><br><span class="line">libavcodec/aaccoder.c:<span class="number">803</span>:<span class="number">25</span>: error: expected identifier <span class="keyword">or</span> <span class="string">'('</span> before numeric constant</span><br><span class="line">                     <span class="keyword">int</span> B0 = <span class="number">0</span>, B1 = <span class="number">0</span>;</span><br><span class="line">                         ^</span><br><span class="line">libavcodec/aaccoder.c:<span class="number">865</span>:<span class="number">28</span>: error: lvalue required as left operand of assignment</span><br><span class="line">                         B0 += b1+b2;</span><br><span class="line">                            ^</span><br><span class="line">libavcodec/aaccoder.c:866:25: error: 'B1' undeclared (first use in this function)</span><br><span class="line">                         B1 += b3+b4;</span><br><span class="line">                         ^</span><br><span class="line">libavcodec/aaccoder.c:<span class="number">866</span>:<span class="number">25</span>: note: each undeclared identifier is reported only once <span class="keyword">for</span> each function it appears in</span><br><span class="line">make: *** [libavcodec/aaccoder.o] Error <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>编译时出现以上错误。原因是在<code>/usr/arm-linux-androideabi/include/asm/termbits.h</code>中已经定义<code>#define B0 0000000</code>，所以在此处重复定义故而报错。将<code>B0</code>修改为<code>b0</code>即可。按照同样的方法还需处理<code>libavcodec/hevc_mvs.c</code>(B0-&gt;b0, xB0-&gt;xb0, yB0-&gt;yb0)和<code>libavcodec/opus_pvq.c</code>(B0-&gt;b0)。</p>
+<h2 id="完成"><a href="#完成" class="headerlink" title="完成"></a>完成</h2><p>至此，编译通过。</p>
+<blockquote>
+<p>参考链接：</p>
+<p><a href="https://yesimroy.gitbooks.io/android-note/content/compile_ffmpeg_for_android.html" target="_blank" rel="noopener">https://yesimroy.gitbooks.io/android-note/content/compile_ffmpeg_for_android.html</a></p>
+<p><a href="http://alientechlab.com/how-to-build-ffmpeg-for-android/" target="_blank" rel="noopener">http://alientechlab.com/how-to-build-ffmpeg-for-android/</a></p>
+<p><a href="https://www.jianshu.com/p/e3fb667dacae" target="_blank" rel="noopener">https://www.jianshu.com/p/e3fb667dacae</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/FFMPEG/" rel="tag"># FFMPEG</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/13/在Visual-Studio中的汉字的编码问题/" rel="next" title="在Visual Studio中的汉字的编码问题">
+                <i class="fa fa-chevron-left"></i> 在Visual Studio中的汉字的编码问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Kyen">
+            
+              <p class="site-author-name" itemprop="name">Kyen</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置环境"><span class="nav-number">1.</span> <span class="nav-text">配置环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译x264"><span class="nav-number">2.</span> <span class="nav-text">编译x264</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译FFMPEG"><span class="nav-number">3.</span> <span class="nav-text">编译FFMPEG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误"><span class="nav-number">4.</span> <span class="nav-text">错误</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#错误一-request-for-member-‘s-addr’-in-something-not-a-structure-or-union"><span class="nav-number">4.1.</span> <span class="nav-text">错误一 request for member ‘s_addr’ in something not a structure or union</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误二-error-expected-identifier-or-‘-‘-before-numeric-constant-int-B0-0-B1-0"><span class="nav-number">4.2.</span> <span class="nav-text">错误二 error: expected identifier or ‘(‘ before numeric constant int B0 = 0, B1 = 0;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完成"><span class="nav-number">5.</span> <span class="nav-text">完成</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">京ICP备18062069号 </a>&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kyen</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.9/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: true,
+    appId: '8tLH7JizsOKpK6wiw6eglcYT-gzGzoHsz',
+    appKey: '6EhmgPeeinlDw3xqy4FXdrTD',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('复制');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
