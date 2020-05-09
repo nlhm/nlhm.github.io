@@ -113,7 +113,7 @@
 <meta name="keywords" content="linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux操作系统与Windows操作系统">
-<meta property="og:url" content="http://yoursite.com/2019/10/17/linux操作系统与Windows操作系统/index.html">
+<meta property="og:url" content="https://lianghm.top/2019/10/17/linux操作系统与Windows操作系统/index.html">
 <meta property="og:site_name" content="藉藉无名的个人小站">
 <meta property="og:description" content="记录一些lLinux操作系统和Windows操作系统下的区别。">
 <meta property="og:locale" content="zh-CN">
@@ -130,7 +130,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/2019/10/17/linux操作系统与Windows操作系统/">
+  <link rel="canonical" href="https://lianghm.top/2019/10/17/linux操作系统与Windows操作系统/">
 
 
 
@@ -339,7 +339,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/17/linux操作系统与Windows操作系统/">
+    <link itemprop="mainEntityOfPage" href="https://lianghm.top/2019/10/17/linux操作系统与Windows操作系统/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Kyen">
@@ -501,7 +501,7 @@
 <h2 id="宽字符的宏"><a href="#宽字符的宏" class="headerlink" title="宽字符的宏"></a>宽字符的宏</h2><p>在Windows下，若VS中的工程选择的是Unicode编码，那么<code>_T(&quot;abc&quot;)</code>和<code>__T(&quot;abc&quot;)</code>就可以直接将”abc”转换成Unicode编码格式。在将该段代码移植至Linux下时，若只是少量改动还好说。如果代码中大量的使用<code>_T()</code>那么可以将其整体通过宏定义的方式替换一下。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _T(x) L ## x</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __T(x) _T(x)</span></span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>具体请参考 <a href="https://lianghm.top/2019/11/08/c-%E4%B8%AD%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8%E8%BF%90%E7%AE%97%E7%AC%A6/" target="_blank" rel="noopener">C++中预处理器运算符</a></p>
+<p>具体请参考 <a href="https://lianghm.top/2019/11/08/c-%E4%B8%AD%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8%E8%BF%90%E7%AE%97%E7%AC%A6/">C++中预处理器运算符</a></p>
 </blockquote>
 
       
