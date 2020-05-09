@@ -15,7 +15,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: https://lianghm.top/
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -90,7 +90,7 @@ deploy:
 
 #Counting Tools
 leancloud_counter_security:
-  enable_sync: true
+  enable_sync: false
   app_id: 8tLH7JizsOKpK6wiw6eglcYT-gzGzoHsz
   app_key: 6EhmgPeeinlDw3xqy4FXdrTD
   username: username # Will be asked while deploying if is left blank
