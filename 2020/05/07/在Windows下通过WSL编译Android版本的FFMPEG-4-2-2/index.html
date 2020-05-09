@@ -117,7 +117,7 @@
 <meta property="og:site_name" content="藉藉无名的个人小站">
 <meta property="og:description" content="本文讲述了在Windows下通过WSL编译Android版本使用的FFMPEG库文件。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-05-07T01:32:22.710Z">
+<meta property="og:updated_time" content="2020-05-09T06:55:15.835Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Windows下通过WSL编译Android版本的FFMPEG 4.2.2">
 <meta name="twitter:description" content="本文讲述了在Windows下通过WSL编译Android版本使用的FFMPEG库文件。">
@@ -382,12 +382,24 @@
                 
               
 
-              <time title="创建时间：2020-05-07 09:24:58 / 修改时间：09:32:22" itemprop="dateCreated datePublished" datetime="2020-05-07T09:24:58+08:00">2020-05-07</time>
+              <time title="创建时间：2020-05-07 09:24:58" itemprop="dateCreated datePublished" datetime="2020-05-07T09:24:58+08:00">2020-05-07</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-05-09 14:55:15" itemprop="dateModified" datetime="2020-05-09T14:55:15+08:00">2020-05-09</time>
               
             
           </span>
@@ -480,6 +492,8 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> HAVE_STRUCT_IP_MREQ_SOURCE &amp;&amp; defined(IP_BLOCK_SOURCE)</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; nb_sources; i++) &#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">ip_mreq_source</span> <span class="title">mreqs</span>;</span></span><br><span class="line">-----&gt;   -----&gt;    -----&gt;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> HAVE_STRUCT_IP_MREQ_SOURCE &amp;&amp; defined(IP_BLOCK_SOURCE)</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; nb_sources; i++) &#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">my_ip_mreq_source</span> <span class="title">mreqs</span>;</span></span><br></pre></td></tr></table></figure>
 <h3 id="错误二-error-expected-identifier-or-‘-‘-before-numeric-constant-int-B0-0-B1-0"><a href="#错误二-error-expected-identifier-or-‘-‘-before-numeric-constant-int-B0-0-B1-0" class="headerlink" title="错误二 error: expected identifier or ‘(‘ before numeric constant int B0 = 0, B1 = 0;"></a>错误二 error: expected identifier or ‘(‘ before numeric constant int B0 = 0, B1 = 0;</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">libavcodec/aaccoder.c: In function 'search_for_ms':</span><br><span class="line">libavcodec/aaccoder.c:<span class="number">803</span>:<span class="number">25</span>: error: expected identifier <span class="keyword">or</span> <span class="string">'('</span> before numeric constant</span><br><span class="line">                     <span class="keyword">int</span> B0 = <span class="number">0</span>, B1 = <span class="number">0</span>;</span><br><span class="line">                         ^</span><br><span class="line">libavcodec/aaccoder.c:<span class="number">865</span>:<span class="number">28</span>: error: lvalue required as left operand of assignment</span><br><span class="line">                         B0 += b1+b2;</span><br><span class="line">                            ^</span><br><span class="line">libavcodec/aaccoder.c:866:25: error: 'B1' undeclared (first use in this function)</span><br><span class="line">                         B1 += b3+b4;</span><br><span class="line">                         ^</span><br><span class="line">libavcodec/aaccoder.c:<span class="number">866</span>:<span class="number">25</span>: note: each undeclared identifier is reported only once <span class="keyword">for</span> each function it appears in</span><br><span class="line">make: *** [libavcodec/aaccoder.o] Error <span class="number">1</span></span><br></pre></td></tr></table></figure>
 <p>编译时出现以上错误。原因是在<code>/usr/arm-linux-androideabi/include/asm/termbits.h</code>中已经定义<code>#define B0 0000000</code>，所以在此处重复定义故而报错。将<code>B0</code>修改为<code>b0</code>即可。按照同样的方法还需处理<code>libavcodec/hevc_mvs.c</code>(B0-&gt;b0, xB0-&gt;xb0, yB0-&gt;yb0)和<code>libavcodec/opus_pvq.c</code>(B0-&gt;b0)。</p>
+<h2 id="错误三-“-libavcodec-58-so”-has-text-relocations"><a href="#错误三-“-libavcodec-58-so”-has-text-relocations" class="headerlink" title="错误三 “****/libavcodec-58.so” has text relocations"></a>错误三 “****/libavcodec-58.so” has text relocations</h2><p>如果你的SDK版本在23以上，那么在x86平台上就会遇到这个问题，别的版本如v7a等都没有此问题。附上官方文档的描述：<a href="https://android.googlesource.com/platform/bionic/+/master/android-changes-for-ndk-developers.md#Text-Relocations-Enforced-for-API-level-23" target="_blank" rel="noopener">Text Relocations (Enforced for API level &gt;= 23)</a>。这个问题好像还是一个比较”有名“的问题，<a href="https://trac.ffmpeg.org/ticket/4928" target="_blank" rel="noopener">具体详见</a>。</p>
+<p>解决方法有两种，一种是降低SDK的版本。另外一种是在编译FFMPEG x86的库时，在Configure选项中增加<code>--disable-asm</code>。如果你额外加载了X264的库，那么在编译X264的X86版本时也需要加入<code>--disable-asm</code>选项。加入该选项之后好像对FFMPEG的解码性能有些影响？我自己并没有做测试。</p>
 <h2 id="完成"><a href="#完成" class="headerlink" title="完成"></a>完成</h2><p>至此，编译通过。</p>
 <blockquote>
 <p>参考链接：</p>
@@ -680,7 +694,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置环境"><span class="nav-number">1.</span> <span class="nav-text">配置环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译x264"><span class="nav-number">2.</span> <span class="nav-text">编译x264</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译FFMPEG"><span class="nav-number">3.</span> <span class="nav-text">编译FFMPEG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误"><span class="nav-number">4.</span> <span class="nav-text">错误</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#错误一-request-for-member-‘s-addr’-in-something-not-a-structure-or-union"><span class="nav-number">4.1.</span> <span class="nav-text">错误一 request for member ‘s_addr’ in something not a structure or union</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误二-error-expected-identifier-or-‘-‘-before-numeric-constant-int-B0-0-B1-0"><span class="nav-number">4.2.</span> <span class="nav-text">错误二 error: expected identifier or ‘(‘ before numeric constant int B0 = 0, B1 = 0;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完成"><span class="nav-number">5.</span> <span class="nav-text">完成</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置环境"><span class="nav-number">1.</span> <span class="nav-text">配置环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译x264"><span class="nav-number">2.</span> <span class="nav-text">编译x264</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译FFMPEG"><span class="nav-number">3.</span> <span class="nav-text">编译FFMPEG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误"><span class="nav-number">4.</span> <span class="nav-text">错误</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#错误一-request-for-member-‘s-addr’-in-something-not-a-structure-or-union"><span class="nav-number">4.1.</span> <span class="nav-text">错误一 request for member ‘s_addr’ in something not a structure or union</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误二-error-expected-identifier-or-‘-‘-before-numeric-constant-int-B0-0-B1-0"><span class="nav-number">4.2.</span> <span class="nav-text">错误二 error: expected identifier or ‘(‘ before numeric constant int B0 = 0, B1 = 0;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误三-“-libavcodec-58-so”-has-text-relocations"><span class="nav-number">5.</span> <span class="nav-text">错误三 “****/libavcodec-58.so” has text relocations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完成"><span class="nav-number">6.</span> <span class="nav-text">完成</span></a></li></ol></div>
             
 
           </div>
