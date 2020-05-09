@@ -179,6 +179,12 @@ make: *** [libavcodec/aaccoder.o] Error 1
 
 编译时出现以上错误。原因是在` /usr/arm-linux-androideabi/include/asm/termbits.h`中已经定义`#define B0 0000000 `，所以在此处重复定义故而报错。将`B0`修改为`b0`即可。按照同样的方法还需处理`libavcodec/hevc_mvs.c`(B0->b0, xB0->xb0, yB0->yb0)和`libavcodec/opus_pvq.c`(B0->b0)。
 
+## 错误三 “\****/libavcodec-58.so" has text relocations
+
+如果你的SDK版本在23以上，那么在x86平台上就会遇到这个问题，别的版本如v7a等都没有此问题。附上官方文档的描述：[Text Relocations (Enforced for API level >= 23)](https://android.googlesource.com/platform/bionic/+/master/android-changes-for-ndk-developers.md#Text-Relocations-Enforced-for-API-level-23)。这个问题好像还是一个比较”有名“的问题，[具体详见](https://trac.ffmpeg.org/ticket/4928)。
+
+解决方法有两种，一种是降低SDK的版本。另外一种是在编译FFMPEG x86的库时，在Configure选项中增加`--disable-asm`。如果你额外加载了X264的库，那么在编译X264的X86版本时也需要加入`--disable-asm`选项。加入该选项之后好像对FFMPEG的解码性能有些影响？我自己并没有做测试。
+
 ## 完成
 
 至此，编译通过。
