@@ -16,35 +16,5 @@
       <description>&lt;p&gt;C++的线程在调用类的成员函数的不像调用普通的类外函数，需要在调用的时候传递额外的参数。&lt;/p&gt;</description>
     </item>
     
-    <item>
-      <title>C&#43;&#43;中预处理器运算符</title>
-      <link>https://lianghm.top/post/c&#43;&#43;%E4%B8%AD%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8%E8%BF%90%E7%AE%97%E7%AC%A6/</link>
-      <pubDate>Fri, 08 Nov 2019 10:49:45 +0800</pubDate>
-      
-      <guid>https://lianghm.top/post/c&#43;&#43;%E4%B8%AD%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8%E8%BF%90%E7%AE%97%E7%AC%A6/</guid>
-      <description>&lt;p&gt;在&lt;code&gt;#define&lt;/code&gt;指令的上下文中使用四个预处理器特定运算符。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>C&#43;&#43;类中的成员访问控制</title>
-      <link>https://lianghm.top/post/c&#43;&#43;%E7%B1%BB%E4%B8%AD%E7%9A%84%E6%88%90%E5%91%98%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/</link>
-      <pubDate>Wed, 06 Nov 2019 07:54:38 +0800</pubDate>
-      
-      <guid>https://lianghm.top/post/c&#43;&#43;%E7%B1%BB%E4%B8%AD%E7%9A%84%E6%88%90%E5%91%98%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/</guid>
-      <description>&lt;p&gt;在C++中关于类内成员的访问控制的一些简单的介绍。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>C&#43;&#43;中构建字符串的完全指南</title>
-      <link>https://lianghm.top/post/c&#43;&#43;%E4%B8%AD%E6%9E%84%E5%BB%BA%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/</link>
-      <pubDate>Wed, 17 Apr 2019 04:52:00 +0800</pubDate>
-      
-      <guid>https://lianghm.top/post/c&#43;&#43;%E4%B8%AD%E6%9E%84%E5%BB%BA%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;翻译自https://www.fluentcpp.com/2017/12/19/build-strings-from-plain-string-up-to-boost-karma/&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;对于一个程序员来说，无论使用哪种语言，创建一个字符串听起来都是一件很基本的事情。但是事实上在C++中，根据你想要实现的复杂度，有很多种不同的方法去创建一个字符串。下面就让我们看看一系列的实现方法，从最基本的标准库中的std::string到boost karma，在简洁的代码中领略复杂的字符串创建。&lt;/p&gt;</description>
-    </item>
-    
   </channel>
 </rss>
