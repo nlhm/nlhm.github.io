@@ -198,14 +198,14 @@
                 </header>
                 <nav id="TableOfContents">
   <ul>
-    <li><a href="#access-control-in-derived-classes">Access Control in Derived Classes</a>
+    <li><a href="#c类中的成员访问控制">C++类中的成员访问控制</a>
       <ul>
-        <li><a href="#member-access-in-base-class">Member Access in Base Class</a></li>
+        <li><a href="#access-control-in-derived-classes">Access Control in Derived Classes</a></li>
+        <li><a href="#access-control-and-static-members">Access control and static members</a></li>
+        <li><a href="#access-to-virtual-functions">Access to virtual functions</a></li>
+        <li><a href="#access-control-with-multiple-inheritance">Access control with multiple inheritance</a></li>
       </ul>
     </li>
-    <li><a href="#access-control-and-static-members">Access control and static members</a></li>
-    <li><a href="#access-to-virtual-functions">Access to virtual functions</a></li>
-    <li><a href="#access-control-with-multiple-inheritance">Access control with multiple inheritance</a></li>
   </ul>
 </nav>
                 
@@ -248,67 +248,67 @@
 </table>
 <h2 id="access-control-and-static-members">Access control and static members</h2>
 <p>When you specify a base class as <strong>private</strong>, it affects only nonstatic members. Public static members are still accessible in the derived classes. However, accessing members of the base class using pointers, references, or objects can require a conversion, at which time access control is again applied. Consider the following example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// access_control.cpp
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Base</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">// access_control.cpp
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">Base</span>
 {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">int</span> Print();             <span style="color:#75715e">// Nonstatic member.
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">CountOf</span>();    <span style="color:#75715e">// Static member.
-</span><span style="color:#75715e"></span>};
+<span style="color:#ff79c6">public</span><span style="color:#ff79c6">:</span>
+    <span style="color:#8be9fd">int</span> Print();             <span style="color:#6272a4">// Nonstatic member.
+</span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">static</span> <span style="color:#8be9fd">int</span> <span style="color:#50fa7b">CountOf</span>();    <span style="color:#6272a4">// Static member.
+</span><span style="color:#6272a4"></span>};
 
-<span style="color:#75715e">// Derived1 declares Base as a private base class.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Derived1</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">private</span> Base
+<span style="color:#6272a4">// Derived1 declares Base as a private base class.
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">Derived1</span> <span style="color:#ff79c6">:</span> <span style="color:#ff79c6">private</span> Base
 {
 };
-<span style="color:#75715e">// Derived2 declares Derived1 as a public base class.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Derived2</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> Derived1
+<span style="color:#6272a4">// Derived2 declares Derived1 as a public base class.
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">Derived2</span> <span style="color:#ff79c6">:</span> <span style="color:#ff79c6">public</span> Derived1
 {
-    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">ShowCount</span>();    <span style="color:#75715e">// Nonstatic member.
-</span><span style="color:#75715e"></span>};
-<span style="color:#75715e">// Define ShowCount function for Derived2.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> Derived2<span style="color:#f92672">::</span>ShowCount()
+    <span style="color:#8be9fd">int</span> <span style="color:#50fa7b">ShowCount</span>();    <span style="color:#6272a4">// Nonstatic member.
+</span><span style="color:#6272a4"></span>};
+<span style="color:#6272a4">// Define ShowCount function for Derived2.
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd">int</span> Derived2<span style="color:#ff79c6">::</span>ShowCount()
 {
-   <span style="color:#75715e">// Call static member function CountOf explicitly.
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> cCount <span style="color:#f92672">=</span> Base<span style="color:#f92672">::</span>CountOf();     <span style="color:#75715e">// OK. //PS：自己测试的时候发现此处报错。
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// kyen : error C2247: &#39;Base::CountOf&#39; not accessible because &#39;Derived1&#39; uses &#39;private&#39; to inherit from &#39;Base&#39;
-</span><span style="color:#75715e"></span>
-   <span style="color:#75715e">// Call static member function CountOf using pointer.
-</span><span style="color:#75715e"></span>    cCount <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>CountOf();  <span style="color:#75715e">// C2247. Conversion of
-</span><span style="color:#75715e"></span>                               <span style="color:#75715e">//  Derived2 * to Base * not
-</span><span style="color:#75715e"></span>                               <span style="color:#75715e">//  permitted.
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// kyen : error C2247: &#39;Base::CountOf&#39; not accessible because &#39;Derived1&#39; uses &#39;private&#39; to inherit from &#39;Base&#39;
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> cCount;
+   <span style="color:#6272a4">// Call static member function CountOf explicitly.
+</span><span style="color:#6272a4"></span>    <span style="color:#8be9fd">int</span> cCount <span style="color:#ff79c6">=</span> Base<span style="color:#ff79c6">::</span>CountOf();     <span style="color:#6272a4">// OK. //PS：自己测试的时候发现此处报错。
+</span><span style="color:#6272a4"></span>    <span style="color:#6272a4">// kyen : error C2247: &#39;Base::CountOf&#39; not accessible because &#39;Derived1&#39; uses &#39;private&#39; to inherit from &#39;Base&#39;
+</span><span style="color:#6272a4"></span>
+   <span style="color:#6272a4">// Call static member function CountOf using pointer.
+</span><span style="color:#6272a4"></span>    cCount <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">this</span><span style="color:#ff79c6">-&gt;</span>CountOf();  <span style="color:#6272a4">// C2247. Conversion of
+</span><span style="color:#6272a4"></span>                               <span style="color:#6272a4">//  Derived2 * to Base * not
+</span><span style="color:#6272a4"></span>                               <span style="color:#6272a4">//  permitted.
+</span><span style="color:#6272a4"></span>    <span style="color:#6272a4">// kyen : error C2247: &#39;Base::CountOf&#39; not accessible because &#39;Derived1&#39; uses &#39;private&#39; to inherit from &#39;Base&#39;
+</span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">return</span> cCount;
 }
 </code></pre></div><p>In the preceding code, access control prohibits conversion from a pointer to <code>Derived2</code> to a pointer to <code>Base</code>. The <strong>this</strong> pointer is implicitly of type <code>Derived2 *</code>. To select the <code>CountOf</code> function, <strong>this</strong> must be converted to type <code>Base *</code>. Such a conversion is not permitted because <code>Base</code> is a private indirect base class to <code>Derived2</code>. Conversion to a private base class type is acceptable only for pointers to immediate derived classes. Therefore, pointers of type <code>Derived1 *</code> can be converted to type <code>Base *</code>.</p>
 <p>Note that calling the <code>CountOf</code> function explicitly, without using a pointer, reference, or object to select it, implies no conversion. Therefore, the call is allowed.</p>
 <p>Members and friends of a derived class, <code>T</code>, can convert a pointer to <code>T</code> to a pointer to a private direct base class of <code>T</code>.</p>
 <h2 id="access-to-virtual-functions">Access to virtual functions</h2>
 <p>The access control applied to <a href="https://docs.microsoft.com/en-us/cpp/cpp/virtual-cpp?view=vs-2019">virtual</a> functions is determined by the type used to make the function call. Overriding declarations of the function do not affect the access control for a given type. For example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// access_to_virtual_functions.cpp
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">VFuncBase</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#6272a4">// access_to_virtual_functions.cpp
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">VFuncBase</span>
 {
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">int</span> GetState() { <span style="color:#66d9ef">return</span> _state; }
-<span style="color:#66d9ef">protected</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">int</span> _state;
+<span style="color:#ff79c6">public</span><span style="color:#ff79c6">:</span>
+    <span style="color:#ff79c6">virtual</span> <span style="color:#8be9fd">int</span> GetState() { <span style="color:#ff79c6">return</span> _state; }
+<span style="color:#ff79c6">protected</span><span style="color:#ff79c6">:</span>
+    <span style="color:#8be9fd">int</span> _state;
 };
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">VFuncDerived</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> VFuncBase
+<span style="color:#ff79c6">class</span> <span style="color:#50fa7b">VFuncDerived</span> <span style="color:#ff79c6">:</span> <span style="color:#ff79c6">public</span> VFuncBase
 {
-<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-    <span style="color:#66d9ef">int</span> GetState() { <span style="color:#66d9ef">return</span> _state; }
+<span style="color:#ff79c6">private</span><span style="color:#ff79c6">:</span>
+    <span style="color:#8be9fd">int</span> GetState() { <span style="color:#ff79c6">return</span> _state; }
 };
 
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+<span style="color:#8be9fd">int</span> <span style="color:#50fa7b">main</span>()
 {
-   VFuncDerived vfd;             <span style="color:#75715e">// Object of derived type.
-</span><span style="color:#75715e"></span>   VFuncBase <span style="color:#f92672">*</span>pvfb <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>vfd;       <span style="color:#75715e">// Pointer to base type.
-</span><span style="color:#75715e"></span>   VFuncDerived <span style="color:#f92672">*</span>pvfd <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>vfd;    <span style="color:#75715e">// Pointer to derived type.
-</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">int</span> State;
+   VFuncDerived vfd;             <span style="color:#6272a4">// Object of derived type.
+</span><span style="color:#6272a4"></span>   VFuncBase <span style="color:#ff79c6">*</span>pvfb <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">&amp;</span>vfd;       <span style="color:#6272a4">// Pointer to base type.
+</span><span style="color:#6272a4"></span>   VFuncDerived <span style="color:#ff79c6">*</span>pvfd <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">&amp;</span>vfd;    <span style="color:#6272a4">// Pointer to derived type.
+</span><span style="color:#6272a4"></span>   <span style="color:#8be9fd">int</span> State;
 
-   State <span style="color:#f92672">=</span> pvfb<span style="color:#f92672">-&gt;</span>GetState();     <span style="color:#75715e">// GetState is public.
-</span><span style="color:#75715e"></span>   State <span style="color:#f92672">=</span> pvfd<span style="color:#f92672">-&gt;</span>GetState();     <span style="color:#75715e">// C2248 error expected; GetState is private;
-</span><span style="color:#75715e"></span>}
+   State <span style="color:#ff79c6">=</span> pvfb<span style="color:#ff79c6">-&gt;</span>GetState();     <span style="color:#6272a4">// GetState is public.
+</span><span style="color:#6272a4"></span>   State <span style="color:#ff79c6">=</span> pvfd<span style="color:#ff79c6">-&gt;</span>GetState();     <span style="color:#6272a4">// C2248 error expected; GetState is private;
+</span><span style="color:#6272a4"></span>}
 </code></pre></div><p>In the preceding example, calling the virtual function <code>GetState</code> using a pointer to type <code>VFuncBase</code> calls <code>VFuncDerived::GetState</code>, and <code>GetState</code> is treated as public. However, calling <code>GetState</code> using a pointer to type <code>VFuncDerived</code> is an access-control violation because <code>GetState</code> is declared private in class <code>VFuncDerived</code>.</p>
 <p><strong>Caution</strong></p>
 <p>The virtual function <code>GetState</code> can be called using a pointer to the base class <code>VFuncBase</code>. This does not mean that the function called is the base-class version of that function.</p>
@@ -369,16 +369,17 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                   
-                   <li>
-                       <a href='' rel="alternate" type="application/rss+xml" title="Huiming Blog" >
-                           <span class="fa-stack fa-lg">
-                               <i class="fas fa-circle fa-stack-2x"></i>
-                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
-                           </span>
-                       </a>
-                   </li>
-                   
+                    
+                    <li>
+                        <a href='' rel="alternate"
+                            type="application/rss+xml" title="Huiming Blog">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
                     
                     <li>
                         <a href="mailto:huimin.liang.chn@gmail.com">
@@ -388,15 +389,17 @@
                             </span>
                         </a>
                     </li>
-		    
+                    
+
+                    
+                    
+                    
+
+                    
 
                     
                     
                     
-
-                    
-
-		    
                     
                     
                     
@@ -407,19 +410,16 @@
                     
                     
                     
-            
-            
-            
+                    
                 </ul>
-		<p class="copyright text-muted">
+                <p class="copyright text-muted">
                     Copyright &copy; Huiming Blog 2021
-                    <br>
-                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="100px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    
+                    |
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="20px"
+                        height="20px" src="img/beian.png">
                     </iframe>
+                    <a href="https://beian.miit.gov.cn/">京ICP备18062069号</a>
                 </p>
             </div>
         </div>
@@ -431,12 +431,12 @@
 
 <script>
     function loadAsync(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
+        var d = document, t = 'script',
+            o = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+        s.parentNode.insertBefore(o, s);
     }
 </script>
 
@@ -447,11 +447,11 @@
 
 <script>
     
-    if($('#tag_cloud').length !== 0){
-        loadAsync("/js/jquery.tagcloud.js",function(){
+    if ($('#tag_cloud').length !== 0) {
+        loadAsync("/js/jquery.tagcloud.js", function () {
             $.fn.tagcloud.defaults = {
                 
-                color: {start: '#bbbbee', end: '#0085a1'},
+                color: { start: '#bbbbee', end: '#0085a1' },
             };
             $('#tag_cloud a').tagcloud();
         })
@@ -460,12 +460,11 @@
 
 
 <script>
-    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function () {
         var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
+        if ($nav) FastClick.attach($nav);
     })
 </script>
-
 
 
 

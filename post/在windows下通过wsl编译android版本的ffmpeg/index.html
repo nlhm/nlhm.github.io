@@ -198,17 +198,16 @@
                 </header>
                 <nav id="TableOfContents">
   <ul>
-    <li><a href="#配置环境">配置环境</a></li>
-    <li><a href="#编译x264">编译x264</a></li>
-    <li><a href="#编译ffmpeg">编译FFMPEG</a></li>
-    <li><a href="#错误">错误</a>
+    <li>
       <ul>
-        <li><a href="#错误一-request-for-member-s_addr-in-something-not-a-structure-or-union">错误一 request for member &rsquo;s_addr' in something not a structure or union</a></li>
-        <li><a href="#错误二-error-expected-identifier-or--before-numeric-constant-int-b0--0-b1--0">错误二 error: expected identifier or &lsquo;(&rsquo; before numeric constant int B0 = 0, B1 = 0;</a></li>
+        <li><a href="#配置环境">配置环境</a></li>
+        <li><a href="#编译x264">编译x264</a></li>
+        <li><a href="#编译ffmpeg">编译FFMPEG</a></li>
+        <li><a href="#错误">错误</a></li>
+        <li><a href="#错误三-libavcodec-58so-has-text-relocations">错误三 “****/libavcodec-58.so&quot; has text relocations</a></li>
+        <li><a href="#完成">完成</a></li>
       </ul>
     </li>
-    <li><a href="#错误三-libavcodec-58so-has-text-relocations">错误三 “****/libavcodec-58.so&quot; has text relocations</a></li>
-    <li><a href="#完成">完成</a></li>
   </ul>
 </nav>
                 
@@ -238,112 +237,112 @@
 <p>&ndash;host：编译生成的库将要运行的平台。</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#!/bin/bash
-</span><span style="color:#75715e"></span>NDK<span style="color:#f92672">=</span>/mnt/d/DevelopTools/android-ndk-r12b-linux-x86_64/android-ndk-r12b
-PLATFORM<span style="color:#f92672">=</span>$NDK/platforms/android-21/arch-arm64/
-TOOLCHAIN<span style="color:#f92672">=</span>$NDK/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64
-PREFIX<span style="color:#f92672">=</span>./android/arm64
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#ff79c6">#!/bin/bash
+</span><span style="color:#ff79c6"></span><span style="color:#8be9fd;font-style:italic">NDK</span><span style="color:#ff79c6">=</span>/mnt/d/DevelopTools/android-ndk-r12b-linux-x86_64/android-ndk-r12b
+<span style="color:#8be9fd;font-style:italic">PLATFORM</span><span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">$NDK</span>/platforms/android-21/arch-arm64/
+<span style="color:#8be9fd;font-style:italic">TOOLCHAIN</span><span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">$NDK</span>/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64
+<span style="color:#8be9fd;font-style:italic">PREFIX</span><span style="color:#ff79c6">=</span>./android/arm64
 
-<span style="color:#66d9ef">function</span> build_one
-<span style="color:#f92672">{</span>
-  ./configure <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  --prefix<span style="color:#f92672">=</span>$PREFIX <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  --enable-static <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  --enable-pic <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  --host<span style="color:#f92672">=</span>aarch64-linux <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  --cross-prefix<span style="color:#f92672">=</span>$TOOLCHAIN/bin/aarch64-linux-android- <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>  --sysroot<span style="color:#f92672">=</span>$PLATFORM
+<span style="color:#ff79c6">function</span> build_one
+<span style="color:#ff79c6">{</span>
+  ./configure <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  --prefix<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">$PREFIX</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  --enable-static <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  --enable-pic <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  --host<span style="color:#ff79c6">=</span>aarch64-linux <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  --cross-prefix<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">$TOOLCHAIN</span>/bin/aarch64-linux-android- <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  --sysroot<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">$PLATFORM</span>
 
   make clean
   make
   make install
-<span style="color:#f92672">}</span>
+<span style="color:#ff79c6">}</span>
 
 build_one
 
-echo Android ARM64 builds finished
+<span style="color:#8be9fd;font-style:italic">echo</span> Android ARM64 builds finished
 
 </code></pre></div><p>接下来在该目录下通过WSL运行脚本就可以了。</p>
 <h2 id="编译ffmpeg">编译FFMPEG</h2>
 <p>首先按照上述方式配置FFMPEG的脚本文件。记得按照脚本文件中的位置存放X264的库文件或者自己修改脚本中的路径。</p>
 <p>之后要修改FFMPEG自带的configure文件。因为默认编译出的so库是带有版本号的，在安卓工程中是使用不了的。</p>
 <p>在Configure文件中找到如下代码：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">SLIBNAME_WITH_MAJOR<span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">&#39;$</span>(SLIBNAME).<span style="color:#960050;background-color:#1e0010">$</span>(LIBMAJOR)<span style="color:#960050;background-color:#1e0010">&#39;</span>
-LIB_INSTALL_EXTRA_CMD<span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">&#39;$$</span>(RANLIB) <span style="color:#e6db74">&#34;$(LIBDIR)/$(LIBNAME)&#34;</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
-SLIB_INSTALL_NAME<span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">&#39;$</span>(SLIBNAME_WITH_VERSION)<span style="color:#960050;background-color:#1e0010">&#39;</span>
-SLIB_INSTALL_LINKS<span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">&#39;$</span>(SLIBNAME_WITH_MAJOR) <span style="color:#960050;background-color:#1e0010">$</span>(SLIBNAME)<span style="color:#960050;background-color:#1e0010">&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">SLIBNAME_WITH_MAJOR<span style="color:#ff79c6">=</span>&#39;$(SLIBNAME).$(LIBMAJOR)&#39;
+LIB_INSTALL_EXTRA_CMD<span style="color:#ff79c6">=</span>&#39;$$(RANLIB) <span style="color:#f1fa8c">&#34;$(LIBDIR)/$(LIBNAME)&#34;</span>&#39;
+SLIB_INSTALL_NAME<span style="color:#ff79c6">=</span>&#39;$(SLIBNAME_WITH_VERSION)&#39;
+SLIB_INSTALL_LINKS<span style="color:#ff79c6">=</span>&#39;$(SLIBNAME_WITH_MAJOR) $(SLIBNAME)&#39;
 </code></pre></div><p>然后将其修改为：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">SLIBNAME_WITH_MAJOR<span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">&#39;$</span>(SLIBPREF)<span style="color:#960050;background-color:#1e0010">$</span>(FULLNAME)<span style="color:#f92672">-</span><span style="color:#960050;background-color:#1e0010">$</span>(LIBMAJOR)<span style="color:#960050;background-color:#1e0010">$</span>(SLIBSUF)<span style="color:#960050;background-color:#1e0010">&#39;</span>
-LIB_INSTALL_EXTRA_CMD<span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">&#39;$$</span>(RANLIB)<span style="color:#e6db74">&#34;$(LIBDIR)/$(LIBNAME)&#34;</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
-SLIB_INSTALL_NAME<span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">&#39;$</span>(SLIBNAME_WITH_MAJOR)<span style="color:#960050;background-color:#1e0010">&#39;</span>
-SLIB_INSTALL_LINKS<span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">&#39;$</span>(SLIBNAME)<span style="color:#960050;background-color:#1e0010">&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">SLIBNAME_WITH_MAJOR<span style="color:#ff79c6">=</span>&#39;$(SLIBPREF)$(FULLNAME)<span style="color:#ff79c6">-</span>$(LIBMAJOR)$(SLIBSUF)&#39;
+LIB_INSTALL_EXTRA_CMD<span style="color:#ff79c6">=</span>&#39;$$(RANLIB)<span style="color:#f1fa8c">&#34;$(LIBDIR)/$(LIBNAME)&#34;</span>&#39;
+SLIB_INSTALL_NAME<span style="color:#ff79c6">=</span>&#39;$(SLIBNAME_WITH_MAJOR)&#39;
+SLIB_INSTALL_LINKS<span style="color:#ff79c6">=</span>&#39;$(SLIBNAME)&#39;
 </code></pre></div><p>然后执行脚本。</p>
 <h2 id="错误">错误</h2>
 <h3 id="错误一-request-for-member-s_addr-in-something-not-a-structure-or-union">错误一 request for member &rsquo;s_addr' in something not a structure or union</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">libavformat<span style="color:#f92672">/</span>udp.c: In function <span style="color:#960050;background-color:#1e0010">&#39;</span>udp_set_multicast_sources<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">:</span>
-libavformat<span style="color:#f92672">/</span>udp.c:<span style="color:#ae81ff">290</span><span style="color:#f92672">:</span><span style="color:#ae81ff">28</span><span style="color:#f92672">:</span> error: request <span style="color:#66d9ef">for</span> member <span style="color:#960050;background-color:#1e0010">&#39;</span>s_addr<span style="color:#960050;background-color:#1e0010">&#39;</span> in something not a structure or <span style="color:#66d9ef">union</span>
-         <span style="color:#a6e22e">mreqs</span>.imr_multiaddr.s_addr <span style="color:#f92672">=</span> ((<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sockaddr_in</span> <span style="color:#f92672">*</span>)addr)<span style="color:#f92672">-&gt;</span>sin_addr.s_addr;
-                            <span style="color:#f92672">^</span>
-libavformat<span style="color:#f92672">/</span>udp.c:<span style="color:#ae81ff">292</span><span style="color:#f92672">:</span><span style="color:#ae81ff">32</span><span style="color:#f92672">:</span> error: incompatible types when assigning to type <span style="color:#960050;background-color:#1e0010">&#39;</span>__be32<span style="color:#960050;background-color:#1e0010">&#39;</span> from type <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">in_addr</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
-             mreqs.imr_interface<span style="color:#f92672">=</span> ((<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sockaddr_in</span> <span style="color:#f92672">*</span>)local_addr)<span style="color:#f92672">-&gt;</span>sin_addr;
-                                <span style="color:#f92672">^</span>
-libavformat<span style="color:#f92672">/</span>udp.c:<span style="color:#ae81ff">294</span><span style="color:#f92672">:</span><span style="color:#ae81ff">32</span><span style="color:#f92672">:</span> error: request <span style="color:#66d9ef">for</span> member <span style="color:#960050;background-color:#1e0010">&#39;</span>s_addr<span style="color:#960050;background-color:#1e0010">&#39;</span> in something not a structure or <span style="color:#66d9ef">union</span>
-             <span style="color:#a6e22e">mreqs</span>.imr_interface.s_addr<span style="color:#f92672">=</span> INADDR_ANY;
-                                <span style="color:#f92672">^</span>
-libavformat<span style="color:#f92672">/</span>udp.c:<span style="color:#ae81ff">295</span><span style="color:#f92672">:</span><span style="color:#ae81ff">29</span><span style="color:#f92672">:</span> error: request <span style="color:#66d9ef">for</span> member <span style="color:#960050;background-color:#1e0010">&#39;</span>s_addr<span style="color:#960050;background-color:#1e0010">&#39;</span> in something not a structure or <span style="color:#66d9ef">union</span>
-         <span style="color:#a6e22e">mreqs</span>.imr_sourceaddr.s_addr <span style="color:#f92672">=</span> ((<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sockaddr_in</span> <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>sources[i])<span style="color:#f92672">-&gt;</span>sin_addr.s_addr;
-                             <span style="color:#f92672">^</span>
-ffbuild<span style="color:#f92672">/</span>common.mak:<span style="color:#ae81ff">59</span><span style="color:#f92672">:</span> recipe <span style="color:#66d9ef">for</span> target <span style="color:#960050;background-color:#1e0010">&#39;</span>libavformat<span style="color:#f92672">/</span>udp.o<span style="color:#960050;background-color:#1e0010">&#39;</span> failed
-make: <span style="color:#f92672">***</span> [libavformat<span style="color:#f92672">/</span>udp.o] Error <span style="color:#ae81ff">1</span>
-CC      libavformat<span style="color:#f92672">/</span>udp.o
-libavformat<span style="color:#f92672">/</span>udp.c: In function <span style="color:#960050;background-color:#1e0010">&#39;</span>udp_set_multicast_sources<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">:</span>
-libavformat<span style="color:#f92672">/</span>udp.c:<span style="color:#ae81ff">290</span><span style="color:#f92672">:</span><span style="color:#ae81ff">28</span><span style="color:#f92672">:</span> error: request <span style="color:#66d9ef">for</span> member <span style="color:#960050;background-color:#1e0010">&#39;</span>s_addr<span style="color:#960050;background-color:#1e0010">&#39;</span> in something not a structure or <span style="color:#66d9ef">union</span>
-         <span style="color:#a6e22e">mreqs</span>.imr_multiaddr.s_addr <span style="color:#f92672">=</span> ((<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sockaddr_in</span> <span style="color:#f92672">*</span>)addr)<span style="color:#f92672">-&gt;</span>sin_addr.s_addr;
-                            <span style="color:#f92672">^</span>
-libavformat<span style="color:#f92672">/</span>udp.c:<span style="color:#ae81ff">292</span><span style="color:#f92672">:</span><span style="color:#ae81ff">32</span><span style="color:#f92672">:</span> error: incompatible types when assigning to type <span style="color:#960050;background-color:#1e0010">&#39;</span>__be32<span style="color:#960050;background-color:#1e0010">&#39;</span> from type <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">in_addr</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
-             mreqs.imr_interface<span style="color:#f92672">=</span> ((<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sockaddr_in</span> <span style="color:#f92672">*</span>)local_addr)<span style="color:#f92672">-&gt;</span>sin_addr;
-                                <span style="color:#f92672">^</span>
-libavformat<span style="color:#f92672">/</span>udp.c:<span style="color:#ae81ff">294</span><span style="color:#f92672">:</span><span style="color:#ae81ff">32</span><span style="color:#f92672">:</span> error: request <span style="color:#66d9ef">for</span> member <span style="color:#960050;background-color:#1e0010">&#39;</span>s_addr<span style="color:#960050;background-color:#1e0010">&#39;</span> in something not a structure or <span style="color:#66d9ef">union</span>
-             <span style="color:#a6e22e">mreqs</span>.imr_interface.s_addr<span style="color:#f92672">=</span> INADDR_ANY;
-                                <span style="color:#f92672">^</span>
-libavformat<span style="color:#f92672">/</span>udp.c:<span style="color:#ae81ff">295</span><span style="color:#f92672">:</span><span style="color:#ae81ff">29</span><span style="color:#f92672">:</span> error: request <span style="color:#66d9ef">for</span> member <span style="color:#960050;background-color:#1e0010">&#39;</span>s_addr<span style="color:#960050;background-color:#1e0010">&#39;</span> in something not a structure or <span style="color:#66d9ef">union</span>
-         <span style="color:#a6e22e">mreqs</span>.imr_sourceaddr.s_addr <span style="color:#f92672">=</span> ((<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sockaddr_in</span> <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>sources[i])<span style="color:#f92672">-&gt;</span>sin_addr.s_addr;
-                             <span style="color:#f92672">^</span>
-ffbuild<span style="color:#f92672">/</span>common.mak:<span style="color:#ae81ff">59</span><span style="color:#f92672">:</span> recipe <span style="color:#66d9ef">for</span> target <span style="color:#960050;background-color:#1e0010">&#39;</span>libavformat<span style="color:#f92672">/</span>udp.o<span style="color:#960050;background-color:#1e0010">&#39;</span> failed
-make: <span style="color:#f92672">***</span> [libavformat<span style="color:#f92672">/</span>udp.o] Error <span style="color:#ae81ff">1</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">libavformat<span style="color:#ff79c6">/</span>udp.<span style="color:#8be9fd;font-style:italic">c</span>: In function &#39;udp_set_multicast_sources&#39;<span style="color:#ff79c6">:</span>
+libavformat<span style="color:#ff79c6">/</span>udp.<span style="color:#8be9fd;font-style:italic">c</span>:<span style="color:#bd93f9">290</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">28</span><span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">error</span>: request <span style="color:#ff79c6">for</span> member &#39;s_addr&#39; in something not a structure or <span style="color:#ff79c6">union</span>
+         <span style="color:#50fa7b">mreqs</span>.imr_multiaddr.s_addr <span style="color:#ff79c6">=</span> ((<span style="color:#ff79c6">struct</span> <span style="color:#50fa7b">sockaddr_in</span> <span style="color:#ff79c6">*</span>)addr)<span style="color:#ff79c6">-&gt;</span>sin_addr.s_addr;
+                            <span style="color:#ff79c6">^</span>
+libavformat<span style="color:#ff79c6">/</span>udp.<span style="color:#8be9fd;font-style:italic">c</span>:<span style="color:#bd93f9">292</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">32</span><span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">error</span>: incompatible types when assigning to type &#39;__be32&#39; from type &#39;<span style="color:#ff79c6">struct</span> <span style="color:#50fa7b">in_addr</span>&#39;
+             mreqs.imr_interface<span style="color:#ff79c6">=</span> ((<span style="color:#ff79c6">struct</span> <span style="color:#50fa7b">sockaddr_in</span> <span style="color:#ff79c6">*</span>)local_addr)<span style="color:#ff79c6">-&gt;</span>sin_addr;
+                                <span style="color:#ff79c6">^</span>
+libavformat<span style="color:#ff79c6">/</span>udp.<span style="color:#8be9fd;font-style:italic">c</span>:<span style="color:#bd93f9">294</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">32</span><span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">error</span>: request <span style="color:#ff79c6">for</span> member &#39;s_addr&#39; in something not a structure or <span style="color:#ff79c6">union</span>
+             <span style="color:#50fa7b">mreqs</span>.imr_interface.s_addr<span style="color:#ff79c6">=</span> INADDR_ANY;
+                                <span style="color:#ff79c6">^</span>
+libavformat<span style="color:#ff79c6">/</span>udp.<span style="color:#8be9fd;font-style:italic">c</span>:<span style="color:#bd93f9">295</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">29</span><span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">error</span>: request <span style="color:#ff79c6">for</span> member &#39;s_addr&#39; in something not a structure or <span style="color:#ff79c6">union</span>
+         <span style="color:#50fa7b">mreqs</span>.imr_sourceaddr.s_addr <span style="color:#ff79c6">=</span> ((<span style="color:#ff79c6">struct</span> <span style="color:#50fa7b">sockaddr_in</span> <span style="color:#ff79c6">*</span>)<span style="color:#ff79c6">&amp;</span>sources[i])<span style="color:#ff79c6">-&gt;</span>sin_addr.s_addr;
+                             <span style="color:#ff79c6">^</span>
+ffbuild<span style="color:#ff79c6">/</span>common.<span style="color:#8be9fd;font-style:italic">mak</span>:<span style="color:#bd93f9">59</span><span style="color:#ff79c6">:</span> recipe <span style="color:#ff79c6">for</span> target &#39;libavformat<span style="color:#ff79c6">/</span>udp.o&#39; failed
+<span style="color:#8be9fd;font-style:italic">make</span>: <span style="color:#ff79c6">***</span> [libavformat<span style="color:#ff79c6">/</span>udp.o] Error <span style="color:#bd93f9">1</span>
+CC      libavformat<span style="color:#ff79c6">/</span>udp.o
+libavformat<span style="color:#ff79c6">/</span>udp.<span style="color:#8be9fd;font-style:italic">c</span>: In function &#39;udp_set_multicast_sources&#39;<span style="color:#ff79c6">:</span>
+libavformat<span style="color:#ff79c6">/</span>udp.<span style="color:#8be9fd;font-style:italic">c</span>:<span style="color:#bd93f9">290</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">28</span><span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">error</span>: request <span style="color:#ff79c6">for</span> member &#39;s_addr&#39; in something not a structure or <span style="color:#ff79c6">union</span>
+         <span style="color:#50fa7b">mreqs</span>.imr_multiaddr.s_addr <span style="color:#ff79c6">=</span> ((<span style="color:#ff79c6">struct</span> <span style="color:#50fa7b">sockaddr_in</span> <span style="color:#ff79c6">*</span>)addr)<span style="color:#ff79c6">-&gt;</span>sin_addr.s_addr;
+                            <span style="color:#ff79c6">^</span>
+libavformat<span style="color:#ff79c6">/</span>udp.<span style="color:#8be9fd;font-style:italic">c</span>:<span style="color:#bd93f9">292</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">32</span><span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">error</span>: incompatible types when assigning to type &#39;__be32&#39; from type &#39;<span style="color:#ff79c6">struct</span> <span style="color:#50fa7b">in_addr</span>&#39;
+             mreqs.imr_interface<span style="color:#ff79c6">=</span> ((<span style="color:#ff79c6">struct</span> <span style="color:#50fa7b">sockaddr_in</span> <span style="color:#ff79c6">*</span>)local_addr)<span style="color:#ff79c6">-&gt;</span>sin_addr;
+                                <span style="color:#ff79c6">^</span>
+libavformat<span style="color:#ff79c6">/</span>udp.<span style="color:#8be9fd;font-style:italic">c</span>:<span style="color:#bd93f9">294</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">32</span><span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">error</span>: request <span style="color:#ff79c6">for</span> member &#39;s_addr&#39; in something not a structure or <span style="color:#ff79c6">union</span>
+             <span style="color:#50fa7b">mreqs</span>.imr_interface.s_addr<span style="color:#ff79c6">=</span> INADDR_ANY;
+                                <span style="color:#ff79c6">^</span>
+libavformat<span style="color:#ff79c6">/</span>udp.<span style="color:#8be9fd;font-style:italic">c</span>:<span style="color:#bd93f9">295</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">29</span><span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">error</span>: request <span style="color:#ff79c6">for</span> member &#39;s_addr&#39; in something not a structure or <span style="color:#ff79c6">union</span>
+         <span style="color:#50fa7b">mreqs</span>.imr_sourceaddr.s_addr <span style="color:#ff79c6">=</span> ((<span style="color:#ff79c6">struct</span> <span style="color:#50fa7b">sockaddr_in</span> <span style="color:#ff79c6">*</span>)<span style="color:#ff79c6">&amp;</span>sources[i])<span style="color:#ff79c6">-&gt;</span>sin_addr.s_addr;
+                             <span style="color:#ff79c6">^</span>
+ffbuild<span style="color:#ff79c6">/</span>common.<span style="color:#8be9fd;font-style:italic">mak</span>:<span style="color:#bd93f9">59</span><span style="color:#ff79c6">:</span> recipe <span style="color:#ff79c6">for</span> target &#39;libavformat<span style="color:#ff79c6">/</span>udp.o&#39; failed
+<span style="color:#8be9fd;font-style:italic">make</span>: <span style="color:#ff79c6">***</span> [libavformat<span style="color:#ff79c6">/</span>udp.o] Error <span style="color:#bd93f9">1</span>
 </code></pre></div><p>出现上述错误的原因是：在此版本的NDK中，<code>ip_mreq_source</code>的定义如下。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> ip_mreq_source {
-<span style="color:#75715e">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#ff79c6">struct</span> ip_mreq_source {
+<span style="color:#6272a4">/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */</span>
  __be32 imr_multiaddr;
  __be32 imr_interface;
  __be32 imr_sourceaddr;
 };
 </code></pre></div><p>为了解决此问题，在报错中提到的函数<code>udp_set_multicast_sources</code>前面加上自定义的结构体，并替换出错的结构体。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> my_ip_mreq_source {
-               <span style="color:#66d9ef">struct</span> in_addr imr_multiaddr;  <span style="color:#75715e">/* IP multicast group address */</span>
-               <span style="color:#66d9ef">struct</span> in_addr imr_interface;  <span style="color:#75715e">/* IP address of local interface */</span>
-               <span style="color:#66d9ef">struct</span> in_addr imr_sourceaddr; <span style="color:#75715e">/* IP address of multicast source */</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#ff79c6">struct</span> my_ip_mreq_source {
+               <span style="color:#ff79c6">struct</span> in_addr imr_multiaddr;  <span style="color:#6272a4">/* IP multicast group address */</span>
+               <span style="color:#ff79c6">struct</span> in_addr imr_interface;  <span style="color:#6272a4">/* IP address of local interface */</span>
+               <span style="color:#ff79c6">struct</span> in_addr imr_sourceaddr; <span style="color:#6272a4">/* IP address of multicast source */</span>
 };
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#if HAVE_STRUCT_IP_MREQ_SOURCE &amp;&amp; defined(IP_BLOCK_SOURCE)
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nb_sources; i<span style="color:#f92672">++</span>) {
-        <span style="color:#66d9ef">struct</span> ip_mreq_source mreqs;
-<span style="color:#f92672">-----&gt;</span>   <span style="color:#f92672">-----&gt;</span>    <span style="color:#f92672">-----&gt;</span>
-<span style="color:#75715e">#if HAVE_STRUCT_IP_MREQ_SOURCE &amp;&amp; defined(IP_BLOCK_SOURCE)
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> nb_sources; i<span style="color:#f92672">++</span>) {
-        <span style="color:#66d9ef">struct</span> my_ip_mreq_source mreqs;
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#ff79c6">#if HAVE_STRUCT_IP_MREQ_SOURCE &amp;&amp; defined(IP_BLOCK_SOURCE)
+</span><span style="color:#ff79c6"></span>    <span style="color:#ff79c6">for</span> (i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>; i <span style="color:#ff79c6">&lt;</span> nb_sources; i<span style="color:#ff79c6">++</span>) {
+        <span style="color:#ff79c6">struct</span> ip_mreq_source mreqs;
+<span style="color:#ff79c6">-----&gt;</span>   <span style="color:#ff79c6">-----&gt;</span>    <span style="color:#ff79c6">-----&gt;</span>
+<span style="color:#ff79c6">#if HAVE_STRUCT_IP_MREQ_SOURCE &amp;&amp; defined(IP_BLOCK_SOURCE)
+</span><span style="color:#ff79c6"></span>    <span style="color:#ff79c6">for</span> (i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>; i <span style="color:#ff79c6">&lt;</span> nb_sources; i<span style="color:#ff79c6">++</span>) {
+        <span style="color:#ff79c6">struct</span> my_ip_mreq_source mreqs;
 </code></pre></div><h3 id="错误二-error-expected-identifier-or--before-numeric-constant-int-b0--0-b1--0">错误二 error: expected identifier or &lsquo;(&rsquo; before numeric constant int B0 = 0, B1 = 0;</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">libavcodec<span style="color:#f92672">/</span>aaccoder.c: In function <span style="color:#960050;background-color:#1e0010">&#39;</span>search_for_ms<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">:</span>
-libavcodec<span style="color:#f92672">/</span>aaccoder.c:<span style="color:#ae81ff">803</span><span style="color:#f92672">:</span><span style="color:#ae81ff">25</span><span style="color:#f92672">:</span> error: expected identifier or <span style="color:#e6db74">&#39;(&#39;</span> before numeric constant
-                     <span style="color:#66d9ef">int</span> B0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, B1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-                         <span style="color:#f92672">^</span>
-libavcodec<span style="color:#f92672">/</span>aaccoder.c:<span style="color:#ae81ff">865</span><span style="color:#f92672">:</span><span style="color:#ae81ff">28</span><span style="color:#f92672">:</span> error: lvalue required as left operand of assignment
-                         B0 <span style="color:#f92672">+=</span> b1<span style="color:#f92672">+</span>b2;
-                            <span style="color:#f92672">^</span>
-libavcodec<span style="color:#f92672">/</span>aaccoder.c:<span style="color:#ae81ff">866</span><span style="color:#f92672">:</span><span style="color:#ae81ff">25</span><span style="color:#f92672">:</span> error: <span style="color:#960050;background-color:#1e0010">&#39;</span>B1<span style="color:#960050;background-color:#1e0010">&#39;</span> undeclared (first use in <span style="color:#66d9ef">this</span> function)
-                         B1 <span style="color:#f92672">+=</span> b3<span style="color:#f92672">+</span>b4;
-                         <span style="color:#f92672">^</span>
-libavcodec<span style="color:#f92672">/</span>aaccoder.c:<span style="color:#ae81ff">866</span><span style="color:#f92672">:</span><span style="color:#ae81ff">25</span><span style="color:#f92672">:</span> note: each undeclared identifier is reported only once <span style="color:#66d9ef">for</span> each function it appears in
-make: <span style="color:#f92672">***</span> [libavcodec<span style="color:#f92672">/</span>aaccoder.o] Error <span style="color:#ae81ff">1</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">libavcodec<span style="color:#ff79c6">/</span>aaccoder.<span style="color:#8be9fd;font-style:italic">c</span>: In function &#39;search_for_ms&#39;<span style="color:#ff79c6">:</span>
+libavcodec<span style="color:#ff79c6">/</span>aaccoder.<span style="color:#8be9fd;font-style:italic">c</span>:<span style="color:#bd93f9">803</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">25</span><span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">error</span>: expected identifier or <span style="color:#f1fa8c">&#39;(&#39;</span> before numeric constant
+                     <span style="color:#8be9fd">int</span> B0 <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>, B1 <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+                         <span style="color:#ff79c6">^</span>
+libavcodec<span style="color:#ff79c6">/</span>aaccoder.<span style="color:#8be9fd;font-style:italic">c</span>:<span style="color:#bd93f9">865</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">28</span><span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">error</span>: lvalue required as left operand of assignment
+                         B0 <span style="color:#ff79c6">+=</span> b1<span style="color:#ff79c6">+</span>b2;
+                            <span style="color:#ff79c6">^</span>
+libavcodec<span style="color:#ff79c6">/</span>aaccoder.<span style="color:#8be9fd;font-style:italic">c</span>:<span style="color:#bd93f9">866</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">25</span><span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">error</span>: &#39;B1&#39; undeclared (first use in <span style="color:#ff79c6">this</span> function)
+                         B1 <span style="color:#ff79c6">+=</span> b3<span style="color:#ff79c6">+</span>b4;
+                         <span style="color:#ff79c6">^</span>
+libavcodec<span style="color:#ff79c6">/</span>aaccoder.<span style="color:#8be9fd;font-style:italic">c</span>:<span style="color:#bd93f9">866</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">25</span><span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">note</span>: each undeclared identifier is reported only once <span style="color:#ff79c6">for</span> each function it appears in
+<span style="color:#8be9fd;font-style:italic">make</span>: <span style="color:#ff79c6">***</span> [libavcodec<span style="color:#ff79c6">/</span>aaccoder.o] Error <span style="color:#bd93f9">1</span>
 </code></pre></div><p>编译时出现以上错误。原因是在<code> /usr/arm-linux-androideabi/include/asm/termbits.h</code>中已经定义<code>#define B0 0000000 </code>，所以在此处重复定义故而报错。将<code>B0</code>修改为<code>b0</code>即可。按照同样的方法还需处理<code>libavcodec/hevc_mvs.c</code>(B0-&gt;b0, xB0-&gt;xb0, yB0-&gt;yb0)和<code>libavcodec/opus_pvq.c</code>(B0-&gt;b0)。</p>
 <h2 id="错误三-libavcodec-58so-has-text-relocations">错误三 “****/libavcodec-58.so&quot; has text relocations</h2>
 <p>如果你的SDK版本在23以上，那么在x86平台上就会遇到这个问题，别的版本如v7a等都没有此问题。附上官方文档的描述：<a href="https://android.googlesource.com/platform/bionic/+/master/android-changes-for-ndk-developers.md#Text-Relocations-Enforced-for-API-level-23">Text Relocations (Enforced for API level &gt;= 23)</a>。这个问题好像还是一个比较”有名“的问题，<a href="https://trac.ffmpeg.org/ticket/4928">具体详见</a>。</p>
@@ -400,16 +399,17 @@ make: <span style="color:#f92672">***</span> [libavcodec<span style="color:#f926
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                   
-                   <li>
-                       <a href='' rel="alternate" type="application/rss+xml" title="Huiming Blog" >
-                           <span class="fa-stack fa-lg">
-                               <i class="fas fa-circle fa-stack-2x"></i>
-                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
-                           </span>
-                       </a>
-                   </li>
-                   
+                    
+                    <li>
+                        <a href='' rel="alternate"
+                            type="application/rss+xml" title="Huiming Blog">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
                     
                     <li>
                         <a href="mailto:huimin.liang.chn@gmail.com">
@@ -419,15 +419,17 @@ make: <span style="color:#f92672">***</span> [libavcodec<span style="color:#f926
                             </span>
                         </a>
                     </li>
-		    
+                    
+
+                    
+                    
+                    
+
+                    
 
                     
                     
                     
-
-                    
-
-		    
                     
                     
                     
@@ -438,19 +440,16 @@ make: <span style="color:#f92672">***</span> [libavcodec<span style="color:#f926
                     
                     
                     
-            
-            
-            
+                    
                 </ul>
-		<p class="copyright text-muted">
+                <p class="copyright text-muted">
                     Copyright &copy; Huiming Blog 2021
-                    <br>
-                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="100px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    
+                    |
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="20px"
+                        height="20px" src="img/beian.png">
                     </iframe>
+                    <a href="https://beian.miit.gov.cn/">京ICP备18062069号</a>
                 </p>
             </div>
         </div>
@@ -462,12 +461,12 @@ make: <span style="color:#f92672">***</span> [libavcodec<span style="color:#f926
 
 <script>
     function loadAsync(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
+        var d = document, t = 'script',
+            o = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+        s.parentNode.insertBefore(o, s);
     }
 </script>
 
@@ -478,11 +477,11 @@ make: <span style="color:#f92672">***</span> [libavcodec<span style="color:#f926
 
 <script>
     
-    if($('#tag_cloud').length !== 0){
-        loadAsync("/js/jquery.tagcloud.js",function(){
+    if ($('#tag_cloud').length !== 0) {
+        loadAsync("/js/jquery.tagcloud.js", function () {
             $.fn.tagcloud.defaults = {
                 
-                color: {start: '#bbbbee', end: '#0085a1'},
+                color: { start: '#bbbbee', end: '#0085a1' },
             };
             $('#tag_cloud a').tagcloud();
         })
@@ -491,12 +490,11 @@ make: <span style="color:#f92672">***</span> [libavcodec<span style="color:#f926
 
 
 <script>
-    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function () {
         var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
+        if ($nav) FastClick.attach($nav);
     })
 </script>
-
 
 
 

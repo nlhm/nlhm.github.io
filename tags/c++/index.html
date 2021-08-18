@@ -298,16 +298,17 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                   
-                   <li>
-                       <a href='/tags/c&#43;&#43;/index.xml' rel="alternate" type="application/rss+xml" title="Huiming Blog" >
-                           <span class="fa-stack fa-lg">
-                               <i class="fas fa-circle fa-stack-2x"></i>
-                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
-                           </span>
-                       </a>
-                   </li>
-                   
+                    
+                    <li>
+                        <a href='/tags/c&#43;&#43;/index.xml' rel="alternate"
+                            type="application/rss+xml" title="Huiming Blog">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
                     
                     <li>
                         <a href="mailto:huimin.liang.chn@gmail.com">
@@ -317,15 +318,17 @@
                             </span>
                         </a>
                     </li>
-		    
+                    
+
+                    
+                    
+                    
+
+                    
 
                     
                     
                     
-
-                    
-
-		    
                     
                     
                     
@@ -336,19 +339,16 @@
                     
                     
                     
-            
-            
-            
+                    
                 </ul>
-		<p class="copyright text-muted">
+                <p class="copyright text-muted">
                     Copyright &copy; Huiming Blog 2021
-                    <br>
-                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="100px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    
+                    |
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="20px"
+                        height="20px" src="img/beian.png">
                     </iframe>
+                    <a href="https://beian.miit.gov.cn/">京ICP备18062069号</a>
                 </p>
             </div>
         </div>
@@ -360,12 +360,12 @@
 
 <script>
     function loadAsync(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
+        var d = document, t = 'script',
+            o = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+        s.parentNode.insertBefore(o, s);
     }
 </script>
 
@@ -376,11 +376,11 @@
 
 <script>
     
-    if($('#tag_cloud').length !== 0){
-        loadAsync("/js/jquery.tagcloud.js",function(){
+    if ($('#tag_cloud').length !== 0) {
+        loadAsync("/js/jquery.tagcloud.js", function () {
             $.fn.tagcloud.defaults = {
                 
-                color: {start: '#bbbbee', end: '#0085a1'},
+                color: { start: '#bbbbee', end: '#0085a1' },
             };
             $('#tag_cloud a').tagcloud();
         })
@@ -389,12 +389,11 @@
 
 
 <script>
-    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function () {
         var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
+        if ($nav) FastClick.attach($nav);
     })
 </script>
-
 
 
 

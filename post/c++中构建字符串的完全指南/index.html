@@ -198,16 +198,14 @@
                 </header>
                 <nav id="TableOfContents">
   <ul>
-    <li><a href="#通过string来构建一个-一个string">通过string来构建一个&hellip; 一个string</a>
+    <li>
       <ul>
-        <li><a href="#结构化字符串">结构化字符串</a></li>
-        <li><a href="#原生字符串">原生字符串</a></li>
-        <li><a href="#stdstring的构造函数">std::string的构造函数</a></li>
+        <li><a href="#通过string来构建一个-一个string">通过string来构建一个&hellip; 一个string</a></li>
+        <li><a href="#通过两个string来构建一个string">通过两个string来构建一个string</a></li>
+        <li><a href="#通过n个string来构建一个string">通过N个string来构建一个string</a></li>
+        <li><a href="#通过一个文件来构建一个string">通过一个文件来构建一个string</a></li>
       </ul>
     </li>
-    <li><a href="#通过两个string来构建一个string">通过两个string来构建一个string</a></li>
-    <li><a href="#通过n个string来构建一个string">通过N个string来构建一个string</a></li>
-    <li><a href="#通过一个文件来构建一个string">通过一个文件来构建一个string</a></li>
   </ul>
 </nav>
                 
@@ -227,105 +225,105 @@
 </ul>
 <h2 id="通过string来构建一个-一个string">通过string来构建一个&hellip; 一个string</h2>
 <p>最基本的方法来构建一个字符串，相信你肯定会知道：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#f92672">::</span>string greeting <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello, world&#34;</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#ff79c6">::</span>string greeting <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Hello, world&#34;</span>;
 </code></pre></div><h3 id="结构化字符串">结构化字符串</h3>
 <p>这一个方法知道的人就不多了—一个长字符串可以分割成若干行，而且只需要引号就行了，不需要别的特殊语法。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">std<span style="color:#f92672">::</span>string longGreetings <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello, world. How are you doing? I suppose that by now &#34;</span>
-                                <span style="color:#e6db74">&#34;you must have your inbox chock-full of greetings like &#34;</span>
-                                <span style="color:#e6db74">&#34;this one, in like hundreds of programming languages and &#34;</span>
-                                <span style="color:#e6db74">&#34;sent over by thousands or millions of software developers &#34;</span>
-                                <span style="color:#e6db74">&#34;taking up the challenge of learning a new language. &#34;</span>
-                                <span style="color:#e6db74">&#34;World, you must be the most popular mentor for beginners &#34;</span>
-                                <span style="color:#e6db74">&#34;but you&#39;ll find this message a little bit different: in &#34;</span>
-                                <span style="color:#e6db74">&#34;it you&#39;ll hear about Boost Karma, which I hope you&#39;ll &#34;</span>
-                                <span style="color:#e6db74">&#34;find both unusual and interesting. Keep it up, world.&#34;</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">std<span style="color:#ff79c6">::</span>string longGreetings <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Hello, world. How are you doing? I suppose that by now &#34;</span>
+                                <span style="color:#f1fa8c">&#34;you must have your inbox chock-full of greetings like &#34;</span>
+                                <span style="color:#f1fa8c">&#34;this one, in like hundreds of programming languages and &#34;</span>
+                                <span style="color:#f1fa8c">&#34;sent over by thousands or millions of software developers &#34;</span>
+                                <span style="color:#f1fa8c">&#34;taking up the challenge of learning a new language. &#34;</span>
+                                <span style="color:#f1fa8c">&#34;World, you must be the most popular mentor for beginners &#34;</span>
+                                <span style="color:#f1fa8c">&#34;but you&#39;ll find this message a little bit different: in &#34;</span>
+                                <span style="color:#f1fa8c">&#34;it you&#39;ll hear about Boost Karma, which I hope you&#39;ll &#34;</span>
+                                <span style="color:#f1fa8c">&#34;find both unusual and interesting. Keep it up, world.&#34;</span>;
 </code></pre></div><p>是不是很方便？</p>
 <p>这个方法在写SQL数据库请求中还是很方便的，因为在有些时候这样的方式会让你的代码的可读性更好。哦，对了。不要忘记在每一行的结尾加上空格符，不然行末的单词就和下一行行首的单词拼在一起了。</p>
 <p>这个技巧能你字符串构建的代码整齐有序而不是之前在笔直的一句代码中完成。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#f92672">::</span>string s <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;(field1=value1) or ((field6=value2 or field2=value3 or field3=value4) and (field1=value2))&#34;</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#ff79c6">::</span>string s <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;(field1=value1) or ((field6=value2 or field2=value3 or field3=value4) and (field1=value2))&#34;</span>;
 </code></pre></div><p>可以写成这样的形式：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#f92672">::</span>string s <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;(&#34;</span>
-                        <span style="color:#e6db74">&#34;field1=value1&#34;</span>
-                    <span style="color:#e6db74">&#34;)&#34;</span>
-                    <span style="color:#e6db74">&#34; or &#34;</span>
-                    <span style="color:#e6db74">&#34;(&#34;</span>
-                        <span style="color:#e6db74">&#34;(&#34;</span>
-                            <span style="color:#e6db74">&#34;field6=value2&#34;</span>
-                            <span style="color:#e6db74">&#34; or &#34;</span>
-                            <span style="color:#e6db74">&#34;field2=value3&#34;</span>
-                            <span style="color:#e6db74">&#34; or &#34;</span>
-                            <span style="color:#e6db74">&#34;field3=value4&#34;</span>
-                        <span style="color:#e6db74">&#34;)&#34;</span>
-                        <span style="color:#e6db74">&#34; and &#34;</span>
-                        <span style="color:#e6db74">&#34;(&#34;</span>
-                            <span style="color:#e6db74">&#34;field1=value2&#34;</span>
-                        <span style="color:#e6db74">&#34;)&#34;</span>
-                    <span style="color:#e6db74">&#34;)&#34;</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#ff79c6">::</span>string s <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;(&#34;</span>
+                        <span style="color:#f1fa8c">&#34;field1=value1&#34;</span>
+                    <span style="color:#f1fa8c">&#34;)&#34;</span>
+                    <span style="color:#f1fa8c">&#34; or &#34;</span>
+                    <span style="color:#f1fa8c">&#34;(&#34;</span>
+                        <span style="color:#f1fa8c">&#34;(&#34;</span>
+                            <span style="color:#f1fa8c">&#34;field6=value2&#34;</span>
+                            <span style="color:#f1fa8c">&#34; or &#34;</span>
+                            <span style="color:#f1fa8c">&#34;field2=value3&#34;</span>
+                            <span style="color:#f1fa8c">&#34; or &#34;</span>
+                            <span style="color:#f1fa8c">&#34;field3=value4&#34;</span>
+                        <span style="color:#f1fa8c">&#34;)&#34;</span>
+                        <span style="color:#f1fa8c">&#34; and &#34;</span>
+                        <span style="color:#f1fa8c">&#34;(&#34;</span>
+                            <span style="color:#f1fa8c">&#34;field1=value2&#34;</span>
+                        <span style="color:#f1fa8c">&#34;)&#34;</span>
+                    <span style="color:#f1fa8c">&#34;)&#34;</span>;
 </code></pre></div><h3 id="原生字符串">原生字符串</h3>
 <p>在代码中，字符串的结束符是一个引号&quot;。但是想在字符串中包含一个引号，此时就需要转义符号了。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#f92672">::</span>string stringInQuote <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;This is a </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">string</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">&#34;</span>;
-    <span style="color:#75715e">// output
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// This is a &#34;string&#34;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#ff79c6">::</span>string stringInQuote <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;This is a </span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">string</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">&#34;</span>;
+    <span style="color:#6272a4">// output
+</span><span style="color:#6272a4"></span>    <span style="color:#6272a4">// This is a &#34;string&#34;
 </span></code></pre></div><p>在C++11中，有个标识符raw string能让你把任意字符直接添加到字符串中。一个字符R表明该字符串是raw string，这个字符串的内容也要被包围起来，包围方法见下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#f92672">::</span>string stringInQuote <span style="color:#f92672">=</span> R<span style="color:#e6db74">&#34;(This is a &#34;</span>string<span style="color:#e6db74">&#34;)&#34;</span>;
-    <span style="color:#75715e">//这个字符和上方的完全一样
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#ff79c6">::</span>string stringInQuote <span style="color:#ff79c6">=</span> R<span style="color:#f1fa8c">&#34;(This is a &#34;</span>string<span style="color:#f1fa8c">&#34;)&#34;</span>;
+    <span style="color:#6272a4">//这个字符和上方的完全一样
 </span></code></pre></div><p>每一个包含在raw string的字符都会被构建到字符串中去，包括IDE中的换行符和空格。若代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#f92672">::</span>string stringInQuote <span style="color:#f92672">=</span> R<span style="color:#e6db74">&#34;(This is a &#34;</span>string<span style="color:#e6db74">&#34;</span>
-                                   and a second line)<span style="color:#e6db74">&#34;;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#ff79c6">::</span>string stringInQuote <span style="color:#ff79c6">=</span> R<span style="color:#f1fa8c">&#34;(This is a &#34;</span>string<span style="color:#f1fa8c">&#34;</span>
+                                   and a second line)<span style="color:#f1fa8c">&#34;;</span>
 </code></pre></div><p>其输出为：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    This is a <span style="color:#e6db74">&#34;string&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    This is a <span style="color:#f1fa8c">&#34;string&#34;</span>
                                    and a second line
 </code></pre></div><p>所以在使用raw string时一定要特别注意。如果你想要若干行的字符组成一个raw string，那么一定把每一行字符的缩进给去掉：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#f92672">::</span>string stringInQuote <span style="color:#f92672">=</span> R<span style="color:#e6db74">&#34;(This is a &#34;</span>string<span style="color:#e6db74">&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#ff79c6">::</span>string stringInQuote <span style="color:#ff79c6">=</span> R<span style="color:#f1fa8c">&#34;(This is a &#34;</span>string<span style="color:#f1fa8c">&#34;</span>
     and a second line
-    and a third)<span style="color:#e6db74">&#34;;</span>
+    and a third)<span style="color:#f1fa8c">&#34;;</span>
 </code></pre></div><h3 id="stdstring的构造函数">std::string的构造函数</h3>
 <p>本节最后一件事说的是std::string的构造函数。你可以用构造函数构建一个包含n个重复字符的字符串：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#f92672">::</span>string s(<span style="color:#ae81ff">10</span>, <span style="color:#e6db74">&#39;a&#39;</span>); <span style="color:#75715e">// read: 10 times &#39;a&#39;
-</span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> s <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#39;\n&#39;</span>;
-    <span style="color:#75715e">//outputs:
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">//aaaaaaaaaa
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#ff79c6">::</span>string s(<span style="color:#bd93f9">10</span>, <span style="color:#f1fa8c">&#39;a&#39;</span>); <span style="color:#6272a4">// read: 10 times &#39;a&#39;
+</span><span style="color:#6272a4"></span>    std<span style="color:#ff79c6">::</span>cout <span style="color:#ff79c6">&lt;&lt;</span> s <span style="color:#ff79c6">&lt;&lt;</span> <span style="color:#f1fa8c">&#39;\n&#39;</span>;
+    <span style="color:#6272a4">//outputs:
+</span><span style="color:#6272a4"></span>    <span style="color:#6272a4">//aaaaaaaaaa
 </span></code></pre></div><h2 id="通过两个string来构建一个string">通过两个string来构建一个string</h2>
 <p>在C++中最简单的拼接字符串的方法是使用+或者是+=运算符</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#f92672">::</span>string s1 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello, &#34;</span>;
-    std<span style="color:#f92672">::</span>string s2 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;world.&#34;</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#ff79c6">::</span>string s1 <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Hello, &#34;</span>;
+    std<span style="color:#ff79c6">::</span>string s2 <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;world.&#34;</span>;
      
-    std<span style="color:#f92672">::</span>string s3 <span style="color:#f92672">=</span> s1 <span style="color:#f92672">+</span> s2;
-    s1 <span style="color:#f92672">+=</span> s2;
+    std<span style="color:#ff79c6">::</span>string s3 <span style="color:#ff79c6">=</span> s1 <span style="color:#ff79c6">+</span> s2;
+    s1 <span style="color:#ff79c6">+=</span> s2;
 </code></pre></div><p>这两个运算符能接受几种不同的对象，包括指向字符串的const char*，甚至是单独的一个字符。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#f92672">::</span>string s1 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello, &#34;</span>;
-    std<span style="color:#f92672">::</span>string s2 <span style="color:#f92672">=</span> s1 <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;world.&#34;</span>;
-    <span style="color:#75715e">//or even individual characters：
-</span><span style="color:#75715e"></span>    s2 <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;!&#39;</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#ff79c6">::</span>string s1 <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Hello, &#34;</span>;
+    std<span style="color:#ff79c6">::</span>string s2 <span style="color:#ff79c6">=</span> s1 <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#34;world.&#34;</span>;
+    <span style="color:#6272a4">//or even individual characters：
+</span><span style="color:#6272a4"></span>    s2 <span style="color:#ff79c6">+=</span> <span style="color:#f1fa8c">&#39;!&#39;</span>;
 </code></pre></div><p>现在你可能会好奇这两个运算符的运算性能，想知道使用operator+ 或者 operator+=真的是个好选择吗？我在Google Benchmark上做了一个对比测试，通过构建单个string来检测下面两段代码的性能区别：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    <span style="color:#75715e">//code 1
-</span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>string s4;
-    s4 <span style="color:#f92672">=</span> s1 <span style="color:#f92672">+</span> s2 <span style="color:#f92672">+</span> s3;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    <span style="color:#6272a4">//code 1
+</span><span style="color:#6272a4"></span>    std<span style="color:#ff79c6">::</span>string s4;
+    s4 <span style="color:#ff79c6">=</span> s1 <span style="color:#ff79c6">+</span> s2 <span style="color:#ff79c6">+</span> s3;
 
-    <span style="color:#75715e">//code 2
-</span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>string s4;
-    s4 <span style="color:#f92672">+=</span> s1;
-    s4 <span style="color:#f92672">+=</span> s2;
-    s4 <span style="color:#f92672">+=</span> s3;
+    <span style="color:#6272a4">//code 2
+</span><span style="color:#6272a4"></span>    std<span style="color:#ff79c6">::</span>string s4;
+    s4 <span style="color:#ff79c6">+=</span> s1;
+    s4 <span style="color:#ff79c6">+=</span> s2;
+    s4 <span style="color:#ff79c6">+=</span> s3;
 </code></pre></div><p>从结果来看，对于长字符串来说，这两者之间并没有显著的区别，operator+=在短字符串的操作上要更快一些。我怀疑其中<a href="https://www.fluentcpp.com/2016/11/28/return-value-optimizations/">返回值优化</a>起到了一定的作用。该优化在不同的编译器下表现并不一样，所以你要是想要确定他们在你平台上真正的表现，最好还是自己做一下测试。</p>
 <h2 id="通过n个string来构建一个string">通过N个string来构建一个string</h2>
 <p>试想以下情景：你有一大堆的字符串，并且你想把它们组合成一个大字符串，在C++中你会怎么做呢？</p>
 <p>一种能在一行代码中解决该问题的方法是使用 <code>std::accumulate</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#f92672">::</span>string result <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>accumulate(begin(words), end(words), std<span style="color:#f92672">::</span>string())
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#ff79c6">::</span>string result <span style="color:#ff79c6">=</span> std<span style="color:#ff79c6">::</span>accumulate(begin(words), end(words), std<span style="color:#ff79c6">::</span>string())
 </code></pre></div><p>事实上，<code>std::accumulate</code>接收一个集合和一个初始值，不断的对集合中的元素和初始值调用+运算符，每次都用他们相加的结果来更细初始值。</p>
 <p>注意⚠️，在这里初始值被设为<code>std::string()</code>而不是简单的“”，因为<code>std::accumulate</code>是把传进来的值作为一个模版参数。对于“”来说，在类型萃取的时候没有隐式转换，算法会认为其类型是<code>const char*</code>，这个类型和+运算符的返回值<code>std::string</code>是冲突的，这样accumulator就不能赋值了。</p>
 <p>尽管这种方法十分的方便，但是速度却不是很快。在执行过程中，有很多临时的字符串被创建和销毁。因此，你可以尝试以下代码：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#f92672">::</span>string result;
-    <span style="color:#66d9ef">for</span> (std<span style="color:#f92672">::</span>string <span style="color:#66d9ef">const</span><span style="color:#f92672">&amp;</span> word : words)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#ff79c6">::</span>string result;
+    <span style="color:#ff79c6">for</span> (std<span style="color:#ff79c6">::</span>string <span style="color:#ff79c6">const</span><span style="color:#ff79c6">&amp;</span> <span style="color:#8be9fd;font-style:italic">word</span> : words)
     {
-        result <span style="color:#f92672">+=</span> word;
+        result <span style="color:#ff79c6">+=</span> word;
     }
 </code></pre></div><p>利用Google benchmark进行的测试，第二种方法比第一种方法快了大概4.5倍。</p>
 <h2 id="通过一个文件来构建一个string">通过一个文件来构建一个string</h2>
 <p>把一个文件中的内容读取出来并传到一个字符串中可以通过以下方式实现：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#f92672">::</span>ostringstream fileContentStream;
-    fileContenStream <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>ifstream(<span style="color:#e6db74">&#34;MyFile.txt&#34;</span>).rdbuf();
-    std<span style="color:#f92672">::</span>string fileContents <span style="color:#f92672">=</span> fileContentStream.str();
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">    std<span style="color:#ff79c6">::</span>ostringstream fileContentStream;
+    fileContenStream <span style="color:#ff79c6">&lt;&lt;</span> std<span style="color:#ff79c6">::</span>ifstream(<span style="color:#f1fa8c">&#34;MyFile.txt&#34;</span>).rdbuf();
+    std<span style="color:#ff79c6">::</span>string fileContents <span style="color:#ff79c6">=</span> fileContentStream.str();
 </code></pre></div><p>
   <img src="/img/TBD.jpeg" alt="">
 
@@ -374,16 +372,17 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <ul class="list-inline text-center">
-                   
-                   <li>
-                       <a href='' rel="alternate" type="application/rss+xml" title="Huiming Blog" >
-                           <span class="fa-stack fa-lg">
-                               <i class="fas fa-circle fa-stack-2x"></i>
-                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
-                           </span>
-                       </a>
-                   </li>
-                   
+                    
+                    <li>
+                        <a href='' rel="alternate"
+                            type="application/rss+xml" title="Huiming Blog">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
                     
                     <li>
                         <a href="mailto:huimin.liang.chn@gmail.com">
@@ -393,15 +392,17 @@
                             </span>
                         </a>
                     </li>
-		    
+                    
+
+                    
+                    
+                    
+
+                    
 
                     
                     
                     
-
-                    
-
-		    
                     
                     
                     
@@ -412,19 +413,16 @@
                     
                     
                     
-            
-            
-            
+                    
                 </ul>
-		<p class="copyright text-muted">
+                <p class="copyright text-muted">
                     Copyright &copy; Huiming Blog 2021
-                    <br>
-                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="100px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    
+                    |
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="20px"
+                        height="20px" src="img/beian.png">
                     </iframe>
+                    <a href="https://beian.miit.gov.cn/">京ICP备18062069号</a>
                 </p>
             </div>
         </div>
@@ -436,12 +434,12 @@
 
 <script>
     function loadAsync(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
+        var d = document, t = 'script',
+            o = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+        s.parentNode.insertBefore(o, s);
     }
 </script>
 
@@ -452,11 +450,11 @@
 
 <script>
     
-    if($('#tag_cloud').length !== 0){
-        loadAsync("/js/jquery.tagcloud.js",function(){
+    if ($('#tag_cloud').length !== 0) {
+        loadAsync("/js/jquery.tagcloud.js", function () {
             $.fn.tagcloud.defaults = {
                 
-                color: {start: '#bbbbee', end: '#0085a1'},
+                color: { start: '#bbbbee', end: '#0085a1' },
             };
             $('#tag_cloud a').tagcloud();
         })
@@ -465,12 +463,11 @@
 
 
 <script>
-    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function () {
         var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
+        if ($nav) FastClick.attach($nav);
     })
 </script>
-
 
 
 
